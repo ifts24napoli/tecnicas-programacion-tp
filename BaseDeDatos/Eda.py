@@ -8,7 +8,8 @@
 
 from BaseDeDatos.DBManager import DBManager
 
-db = DBManager()
+db = DBManager() # Creo el objeto db para trabajar con la base de datos
+
 def consultar(query): 
     consulta = db.consultar(query)
     if "Error" in consulta:
