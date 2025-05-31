@@ -1,3 +1,6 @@
+# Creado por: Yamil Arribas
+# Fecha:
+# Descripción: Se utiliza para crear la conexión con la Base de Datos
 import pyodbc
 
 def conexionDB():

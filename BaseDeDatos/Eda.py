@@ -1,3 +1,9 @@
+# Creado por: Yamil Arribas
+# Fecha: 
+# Descripción: EDA = Easy Data Access. Modulo utilizado para facilitar las tareas de ABM en una base de datos.
+# La idea de este modulo es poder reutilizar y realizar acciones sobra una BD
+# sin la necesidad de concocer sentencias SQL
+
 from BaseDeDatos.DBManager import DBManager
 
 db = DBManager()
@@ -9,7 +15,7 @@ def consultar(query):
         for item in consulta:
             print(item)
 
-def insertar(tabla,**datos):
+def insertar(tabla,**datos): # Utilizamos parametros de tipo keyword arguments (Clave - Valor) como los Dic.
     valores = []
     columnas = []
     for clave, valor in datos.items():
@@ -23,7 +29,7 @@ def insertar(tabla,**datos):
     respuesta = db.agregar(f"insert into {tabla} ({columnas_sql}) values ({valores_sql})")
     print(respuesta)
 
-def actualizar(nbrTabla,filtro,valorFiltro,**datos):
+def actualizar(nbrTabla,filtro,valorFiltro,**datos): # Utilizamos parametros de tipo keyword arguments (Clave - Valor) como los Dic.
     valores = []
     for clave, valor in datos.items():
         if isinstance(valor,str):
@@ -38,6 +44,6 @@ def actualizar(nbrTabla,filtro,valorFiltro,**datos):
     print(respuesta)
     
 
-def eleiminar(tabla,filtro, valorFiltro):
+def eleiminar(tabla, filtro, valorFiltro):
     respuesta = db.eliminar(f"Delete from {tabla} where {filtro} = {valorFiltro}")
     print(respuesta) 
