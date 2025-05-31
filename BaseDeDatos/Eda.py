@@ -1,8 +1,10 @@
 # Creado por: Yamil Arribas
-# Fecha: 
-# Descripción: EDA = Easy Data Access. Modulo utilizado para facilitar las tareas de ABM en una base de datos.
-# La idea de este modulo es poder reutilizar y realizar acciones sobra una BD
-# sin la necesidad de concocer sentencias SQL
+# Fecha: [completar fecha si querés]
+# Descripción: 
+# EDA = Easy Data Access. Módulo diseñado para facilitar tareas de ABM (Alta, Baja, Modificación) 
+# en una base de datos sin necesidad de escribir sentencias SQL directamente.
+# Su objetivo es permitir la reutilización y ejecución sencilla de acciones sobre una base de datos,
+# brindando una interfaz simple y amigable para el usuario.
 
 from BaseDeDatos.DBManager import DBManager
 
