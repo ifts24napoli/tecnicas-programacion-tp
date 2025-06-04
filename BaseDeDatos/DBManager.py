@@ -44,7 +44,7 @@ class DBManager:
             self.conn.commit()
             if self.cursor.rowcount == 0:
                 return "No hay registros para eliminar"
-            return "El/los registros se eliminaron Correctamente"
+            return f"Se eliminaron {self.cursor.rowcount} registro/s Correctamente"
         except pyodbc.Error as e:
             return f"Error en la eliminacion: {e}"
             
