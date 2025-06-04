@@ -22,11 +22,12 @@ def insertar(tabla,**datos): # Utilizamos parametros de tipo keyword arguments (
     valores = []
     columnas = []
     for clave, valor in datos.items():
-        columnas.append(clave)
-        if isinstance (valor,str):
-            valores.append(f"'{valor}'")
-        else:
-            valores.append(str(valor))   
+        if valor is not None:
+            columnas.append(clave)
+            if isinstance (valor,str):
+                valores.append(f"'{valor}'")
+            else:
+                valores.append(str(valor))   
     valores_sql = ", ".join(valores) 
     columnas_sql = ", ".join(columnas)           
     respuesta = db.agregar(f"insert into {tabla} ({columnas_sql}) values ({valores_sql})")
@@ -48,5 +49,7 @@ def actualizar(nbrTabla,filtro,valorFiltro,**datos): # Utilizamos parametros de 
     
 
 def eleiminar(tabla, filtro, valorFiltro):
+    if isinstance(valorFiltro, str):
+        valorFiltro = f"'{valorFiltro}'"
     respuesta = db.eliminar(f"Delete from {tabla} where {filtro} = {valorFiltro}")
     print(respuesta) 
