@@ -6,16 +6,16 @@ from Alumnos import Alumnos
     
 def main():
     # Fuera de Servicio
-     #Ejemolos filtro Texto eleiminar("alumnos", "apellido", "'Lusto'")
-     #Ejemplo filtro entero eleiminar("alumnos","apellido", 54)
     # eleiminar("alumnos", "alumnoId", 51)
     # actualizar("alumnos", "alumnoID", "64" , Nombre = "Martin", Apellido = "Lista", Edad = 44, Grado = "Secundario")
     # insertar("alumnos", Apellido = 'Alarcon', Nombre = 'Roxana',  Edad = 39, Grado = "Primero")
     # consultar("Select * from alumnos where nombre = 'Yamil'")
     
     alumnos = Alumnos(Nombre = "otro1", Apellido = "Ponpin1otro", Edad = "19", Grado = "Uni")
-    # insertar("alumnos", **alumnos.__dict__)
-    # actualizar("alumnos", "alumnoid", '77', **alumnos.__dict__)
+    # insertar("alumnos", **alumnos.__dict__) #**alumnos.__dict__ convierto el objeto a Diccionario
+    actualizar("alumnos", "alumnoid", '77', **alumnos.__dict__)
+      #Ejemolos filtro Texto eleiminar("alumnos", "apellido", "'Lusto'")
+      #Ejemplo filtro entero eleiminar("alumnos","apellido", 54) 
     # eleiminar("alumnos", "alumnoid", 79) 
     # consultar("Select * from alumnos where nombre = 'Yamil'")
     
