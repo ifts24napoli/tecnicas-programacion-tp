@@ -1,7 +1,9 @@
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from controlador.Usuarios import agregar,actualiza, consultar
+from controlador.Usuarios import agregar,actualiza, consultas
+from controlador.Roles import consultas as consultasRol
 from modelo.Usuarios import Usuarios
+from modelo.Roles import Roles
 
 # usuarios = Usuarios(Nombre = "Pepesssss", Apellido = "otssssro", Id_rol = 1, Mail = "otro@gmail.com")
 # agregar(usuarios)
@@ -27,14 +29,20 @@ def abmUsuarios():
             break
         elif opcion == 1:
             usuarioNuevo()
-            
+
+def verificoRol():
+    consultasRol("Select id_rol, tipo_rol from roles ")
+    
+                
 def usuarioNuevo():
     usuarios = Usuarios()
     print("Alta de Usuarios del Sistema")
     usuarios.nombre = input("Ingrese Nombre del Usuario: ")
     usuarios.apellido = input("Ingrese Apellido del Apellido: ")
     usuarios.mail = input("Ingrese Mail: ")
-    usuarios.id_rol = 1 # Hay que mostrar las diferentes opciones
+    verificoRol()
+    usuarios.id_rol = int(input("Selecione un Rol ID: "))
+    # usuarios.id_rol = 1 # Hay que mostrar las diferentes opciones
     respuesta =  agregar(usuarios)
     print(respuesta[1]) # En la posición 1 muestra el mensaje, en la 0 muestra el # del id del registro creado
     

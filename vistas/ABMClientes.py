@@ -1,6 +1,6 @@
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from controlador.Clientes import agregar,actualiza, consultar
+from controlador.Clientes import agregar,actualiza, consultas
 from modelo.Clientes import Clientes
 
 # usuarios = Usuarios(Nombre = "Pepesssss", Apellido = "otssssro", Id_rol = 1, Mail = "otro@gmail.com")
