@@ -10,7 +10,7 @@ class DBManager:
     def __init__(self):
         self.conn = conexionDB()
         self.cursor = self.conn.cursor()
-        
+
     def consultar(self, query: str,):
         try:
             self.cursor.execute(query)

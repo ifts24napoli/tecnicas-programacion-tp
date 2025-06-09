@@ -4,3 +4,4 @@ class Alumnos:
         self.apellido =  datos.get("Apellido")
         self.edad =  datos.get("Edad")
         self.grado = datos.get("Grado")
+        self.profesor = datos.get("Profesor")

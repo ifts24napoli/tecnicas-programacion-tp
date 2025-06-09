@@ -36,10 +36,11 @@ def insertar(tabla,**datos): # Utilizamos parametros de tipo keyword arguments (
 def actualizar(nbrTabla,filtro,valorFiltro,**datos): # Utilizamos parametros de tipo keyword arguments (Clave - Valor) como los Dic.
     valores = []
     for clave, valor in datos.items():
-        if isinstance(valor,str):
-            valores.append(f"{clave} = '{valor}'")
-        else:    
-            valores.append(f"{clave} = {str(valor)}")  
+        if valor is not None:
+            if isinstance(valor,str):
+                valores.append(f"{clave} = '{valor}'")
+            else:
+                valores.append(f"{clave} = {str(valor)}")  
     valores_sql = ", ".join(valores)  
     if not valorFiltro :
         print("Error: debe incluir el ID para actualizar el registro.")
@@ -53,3 +54,4 @@ def eleiminar(tabla, filtro, valorFiltro):
         valorFiltro = f"'{valorFiltro}'"
     respuesta = db.eliminar(f"Delete from {tabla} where {filtro} = {valorFiltro}")
     print(respuesta) 
+    
