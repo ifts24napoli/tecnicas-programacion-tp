@@ -21,12 +21,12 @@ class DBManager:
         
     def agregar(self, query: str):
         try:
-            query = query + " ;SELECT SCOPE_IDENTITY();"
+            query = query + " ;SELECT SCOPE_IDENTITY();" # Necesario para devolver el valor del id creado
             self.cursor.execute(query) # Ejecuta la consulta en la BD
             self.cursor.nextset()  #Me muevo al siguiente resultado (el SELECT)
             id_nuevo = self.cursor.fetchone()[0] #Obtengo el id del nuevo registro
             self.conn.commit()  # Asegura que se guarde en la BD
-            return ([int(id_nuevo), "El resgistro se aggrego Correctamente"])
+            return ([int(id_nuevo), "El resgistro se agrego Correctamente"])
         except pyodbc.Error as e:
             return f"Error al insertar datos: {e}"
     
