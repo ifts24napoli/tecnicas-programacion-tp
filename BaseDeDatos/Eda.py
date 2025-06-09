@@ -31,7 +31,7 @@ def insertar(tabla,**datos): # Utilizamos parametros de tipo keyword arguments (
     valores_sql = ", ".join(valores) 
     columnas_sql = ", ".join(columnas)           
     respuesta = db.agregar(f"insert into {tabla} ({columnas_sql}) values ({valores_sql})")
-    print(respuesta)
+    return respuesta
 
 def actualizar(nbrTabla,filtro,valorFiltro,**datos): # Utilizamos parametros de tipo keyword arguments (Clave - Valor) como los Dic.
     valores = []

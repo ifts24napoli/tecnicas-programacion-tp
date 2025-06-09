@@ -7,7 +7,7 @@ def conexionDB():
     conn = pyodbc.connect(
         'DRIVER={ODBC Driver 17 for SQL Server};'
         'SERVER=DESKTOP-EEGJP86;'
-        'DATABASE=dbescuela;'
+        'DATABASE=dbtp;'
         'Trusted_Connection=yes;'
     )
     return conn
