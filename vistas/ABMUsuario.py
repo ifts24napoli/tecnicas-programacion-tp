@@ -31,7 +31,7 @@ def abmUsuarios():
             usuarioNuevo()
 
 def verificoRol():
-    consultasRol("Select id_rol, tipo_rol from roles ")
+    consultasRol("Select id_rol, tipo_rol from roles")
     
                 
 def usuarioNuevo():
