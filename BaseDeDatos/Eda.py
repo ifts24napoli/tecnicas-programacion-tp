@@ -17,7 +17,7 @@ def consultar(query):
     else:    
         for item in consulta:
             print(item)
-
+        return consulta
 def insertar(tabla,**datos): # Utilizamos parametros de tipo keyword arguments (Clave - Valor) como los Dic.
     valores = []
     columnas = []
