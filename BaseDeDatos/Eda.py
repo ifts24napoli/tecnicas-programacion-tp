@@ -13,10 +13,9 @@ db = DBManager() # Creo el objeto db para trabajar con la base de datos
 def consultar(query): 
     consulta = db.consultar(query)
     if "Error" in consulta:
-        print(consulta)
+        print("Error: " + consulta)
     else:    
-        for item in consulta:
-            print(item)
+        return consulta
 
 def insertar(tabla,**datos): # Utilizamos parametros de tipo keyword arguments (Clave - Valor) como los Dic.
     valores = []
