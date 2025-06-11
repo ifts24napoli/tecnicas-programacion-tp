@@ -11,5 +11,3 @@ def actualiza(filtro, valorFiltro, usuarios):
 
 def consultas(query):
     return consultar(query)
-    
-   
