@@ -1,5 +1,5 @@
 # Creado por: Yamil Arribas
-# Fecha: [completar fecha si querés]
+# Fecha: [03/06/2025]
 # Descripción: 
 # EDA = Easy Data Access. Módulo diseñado para facilitar tareas de ABM (Alta, Baja, Modificación) 
 # en una base de datos sin necesidad de escribir sentencias SQL directamente.

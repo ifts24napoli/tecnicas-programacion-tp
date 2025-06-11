@@ -3,7 +3,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from controlador.Usuarios import agregar,actualiza, consultas
 from controlador.Roles import consultas as consultasRol
 from modelo.Usuarios import Usuarios
-from modelo.Roles import Roles
 
 # usuarios = Usuarios(Nombre = "Pepesssss", Apellido = "otssssro", Id_rol = 1, Mail = "otro@gmail.com")
 # agregar(usuarios)
@@ -24,18 +23,21 @@ def abmUsuarios():
                 # 3. Lista de Usuarios   # 
                 # 4. Eliminar Usuario    #
                 ##########################""")
-        
-        opcion = int(input("Ingrese una Opción: "))
-        if opcion == 0:
-            break
-        elif opcion == 1:
-            usuarioNuevo()
-        elif opcion == 2:
-            modificarUsuario()
-        elif opcion == 3:
-            listarUsuarios()
-        elif opcion == 4:
-            eliminarUsuario()
+        try: 
+            opcion = int(input("Ingrese una Opción: "))
+            if opcion == 0:
+                break
+            elif opcion == 1:
+                usuarioNuevo()
+            elif opcion == 2:
+                modificarUsuario()
+            elif opcion == 3:
+                listarUsuarios()
+            elif opcion == 4:
+                eliminarUsuario()
+        except ValueError:
+            print ("Debe ingresar un valos numérico")
+            continue        
                         
 
 def verificoRol():
@@ -81,4 +83,6 @@ def listarUsuarios():
                 inner join roles as R ON R.id_rol = U.id_rol""")
     
 def eliminarUsuario():
-    print("Elimino Usuario")    
+    print("Elimino Usuario")   
+    
+   
