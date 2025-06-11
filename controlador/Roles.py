@@ -6,8 +6,8 @@ def agregar(roles):
     respuesta = insertar("roles", **roles.__dict__)
     return(respuesta)
 
-def actualiza(filtro, valorFiltro, usuarios):
-    actualizar("roles", filtro, valorFiltro, **usuarios.__dict__)
+def actualiza(filtro, valorFiltro, roles):
+    actualizar("roles", filtro, valorFiltro, **roles.__dict__)
 
 def consultas(query):
-    consultar(query)
+    return consultar(query)
