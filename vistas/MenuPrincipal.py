@@ -14,10 +14,15 @@ def MenuPrincipal(sesion):
             \t1 Gestion de Ususario
             \t2 Gestion de Clientes 
             """)
-        opcion = int(input("Ingrese Alguna Opcion: "))
-        if opcion == 0:
-            break
-        elif opcion == 1:
-            abmUsuarios()
-        elif opcion	 == 2:
-            abmClientes()
+        try: 
+            opcion = int(input("Ingrese Alguna Opcion: "))
+            if opcion == 0:
+                break
+            elif opcion == 1:
+                abmUsuarios()
+            elif opcion	 == 2:
+                abmClientes()     
+        except ValueError:
+            print("Debe ingresar un valor numérico")        
+if __name__ == "__main__":
+    main()
