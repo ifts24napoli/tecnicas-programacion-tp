@@ -1,27 +1,39 @@
 # Creado por: Yamil Arribas
 # Fecha:
 # Descripción: Se utiliza para crear la conexión con la Base de Datos
-from dotenv import dotenv_values
+import os
+from dotenv import load_dotenv
 
 def conexionDB():
-    config = dotenv_values(".env")
-    if config["DRIVER"] == "SQLServer":
+    load_dotenv()
+    host = os.getenv('HOST')
+    db = os.getenv('DB')
+    driver = os.getenv('DRIVER')
+    if driver == "SQLServer":
         import pyodbc
-        connection_string = "DRIVER={ODBC Driver 17 for SQL Server};SERVER="+config["HOST"]+";DATABASE="+config["DB"]+";Trusted_Connection=yes;"
-        conn = pyodbc.connect(connection_string)
+        cadena_conexion = "DRIVER={ODBC Driver 17 for SQL Server};SERVER="+host+";DATABASE="+db+";Trusted_Connection=yes;"
+        conn = pyodbc.connect(cadena_conexion)
         return conn
-    elif config["DRIVER"]== "MySQL":
+    elif driver == "MySQL":
         import mysql.connector
-        connection_data = {
-            "user": config["USER"],
-            "password": config["PASSWORD"],
-            "host": config["HOST"],
-            "database": config["DB"]
+        host = os.getenv("HOST")
+        user = os.getenv("USER")
+        password = os.getenv("PASSWORD")
+        info_conexion = {
+            "user": user,
+            "password": password,
+            "host": host,
+            "database": db
         }
         try:
-            conn = mysql.connector.connect(**connection_data)
+            conn = mysql.connector.connect(**info_conexion)
             if conn.is_connected():
-                print("Conexión exitosa")
                 return conn
         except mysql.connector.Error as err:
             print(f"Error: {err}")
+    elif driver == "SQLite":
+        import sqlite3
+        conn = sqlite3.connect(db + ".db")
+        return conn
+    else:
+        print("Error: motor inválido")

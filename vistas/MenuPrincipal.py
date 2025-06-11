@@ -3,12 +3,16 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from vistas.ABMUsuario import abmUsuarios
 from vistas.ABMClientes import abmClientes
 
-def main():
+def despejar():
+    os.system("cls" if os.name == "nt" else "clear")
+
+def MenuPrincipal(sesion):
     while True:
-        print(""" Selecciones una de las siguientes opciones:
-            0 Para Salir
-            1 Gestion de Ususario
-            2 Gestion de Clientes 
+        print(f""" ## {sesion.email_usuario} ##
+            Selecciones una de las siguientes opciones:
+            \t0 Para Salir
+            \t1 Gestion de Ususario
+            \t2 Gestion de Clientes 
             """)
         opcion = int(input("Ingrese Alguna Opcion: "))
         if opcion == 0:
@@ -16,6 +20,4 @@ def main():
         elif opcion == 1:
             abmUsuarios()
         elif opcion	 == 2:
-            abmClientes()     
-if __name__ == "__main__":
-    main()
+            abmClientes()

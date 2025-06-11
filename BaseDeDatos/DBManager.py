@@ -2,7 +2,7 @@
 # Fecha:
 # Descripción: Clase para realizar operaciones de AMB en una Base de Datos
 
-import pyodbc
+import pyodbc, os
 from BaseDeDatos.Conexion import conexionDB
 
 class DBManager:
@@ -10,6 +10,13 @@ class DBManager:
     def __init__(self):
         self.conn = conexionDB()
         self.cursor = self.conn.cursor()
+        nombre_script = os.getenv('INICIALIZACION')
+        if nombre_script:
+            archivo_script = open(nombre_script, 'r')
+            contenido_script = archivo_script.read()
+            archivo_script.close()
+            self.scursor = self.cursor.executescript(contenido_script)
+            self.conn.commit()
 
     def consultar(self, query: str,):
         try:
