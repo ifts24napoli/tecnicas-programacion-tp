@@ -8,6 +8,7 @@ Sistema para Gestión interna de una empresa ISP (proveedor de servicio de inter
         DRIVER="SQLServer|MySQL|SQLite"
         HOST="localhost"
         DB="DBTP"
+        MEDIO="gui|consola"
     ```
 - instalar bibliotecas (ver requerimientos)
 
