@@ -11,12 +11,14 @@ TEXTO_SESION_NO_INICIADA = "Sesión no iniciada"
 TEXTO_EMAIL = "Email: "
 TEXTO_PASSWORD = "Contraseña: "
 TEXTO_INGRESAR = "Ingresar"
+VENTANA_TITULO = "TP Programación"
 
 def main():
     sesion = Sesion()
     medio = os.getenv('MEDIO')
     if medio=="gui":
         root = Tk()
+        root.title(VENTANA_TITULO)
         frm = ttk.Frame(root, padding=10)
         frm.grid()
         ttk.Label(frm, text=TEXTO_SESION_NO_INICIADA).grid(column=0, row=0)
