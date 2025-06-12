@@ -15,7 +15,7 @@ VENTANA_TITULO = "TP Programación"
 
 def main():
     sesion = Sesion()
-    medio = os.getenv('MEDIO')
+    medio = os.getenv("MEDIO")
     if medio=="gui":
         root = Tk()
         root.title(VENTANA_TITULO)
