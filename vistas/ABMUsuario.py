@@ -164,6 +164,7 @@ class MenuUsuario:
         ventana = Toplevel(self.menuGui)
         ventana.title("Lista de Usuarios")
         ventana.geometry("800x300")
+        print("Hola Mundo")
         
     def eliminarUsuario(self):
         print("Elimino Usuario")
