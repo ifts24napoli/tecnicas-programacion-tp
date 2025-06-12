@@ -13,7 +13,7 @@ from modelo.Clientes import Clientes
 # consultar("""Select U.nombre, U.apellido, tipo_rol
 #           from usuarios as U
 #           inner join roles On roles.id_rol = U.id_rol""")
-def abmUClientes():
+def abmClientes():
     while True:
         print("""Selecciones una de las siguientes opciones: 
                 ##########################
