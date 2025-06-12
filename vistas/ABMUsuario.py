@@ -159,6 +159,12 @@ class MenuUsuario:
 
         ttk.Button(ventana_edicion, text="Guardar Cambios", command=guardarCambios).pack(pady=10)
 
+    def abrirFormilarioUsuarioNuevo(self):
+        usuario = Usuarios()
+        ventana = Toplevel(self.menuGui)
+        ventana.title("Lista de Usuarios")
+        ventana.geometry("800x300")
+        
     def eliminarUsuario(self):
         print("Elimino Usuario")
 
