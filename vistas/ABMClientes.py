@@ -4,15 +4,6 @@ from controlador.Clientes import agregar,actualiza, consultas
 from controlador.Roles import consultas as consultasRol
 from modelo.Clientes import Clientes
 
-# usuarios = Usuarios(Nombre = "Pepesssss", Apellido = "otssssro", Id_rol = 1, Mail = "otro@gmail.com")
-# agregar(usuarios)
-
-# usuarios = Usuarios(Nombre = "Roxana")
-# actualiza("cli", 10, usuarios)
-
-# consultar("""Select U.nombre, U.apellido, tipo_rol
-#           from usuarios as U
-#           inner join roles On roles.id_rol = U.id_rol""")
 def abmClientes():
     while True:
         print("""Selecciones una de las siguientes opciones: 
