@@ -1,6 +1,6 @@
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from vistas.ABMUsuario import abmUsuarios
+from vistas.ABMUsuario import MenuUsuario
 from vistas.ABMClientes import abmClientes
 from Autenticacion.Sesion import Sesion
 
@@ -36,8 +36,7 @@ def MenuPrincipal(sesion:Sesion):
                 sesion.desconectar()
                 break
             elif opcion == 1:
-                despejar()
-                abmUsuarios()
+                MenuUsuario()
             elif opcion	 == 2:
                 abmClientes()
             elif opcion == 3:
