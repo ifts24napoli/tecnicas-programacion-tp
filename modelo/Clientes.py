@@ -3,5 +3,4 @@ class Clientes:
         self.nombre = datos.get("Nombre")
         self.apellido = datos.get("Apellido")
         self.mail = datos.get("Mail")
-        self.id_rol = datos.get("Cuit")
-        self.id_rol = datos.get("Dni")
+        self.cuit = datos.get("Cuit")

@@ -7,8 +7,8 @@ from tkinter import *
 from tkinter import ttk
 import ast
 from tkinter import messagebox
-
-VENTANA_TITULO = "ABM Usuarios"
+from vistas.PruebaMenu import PruebaMenu
+from modelo.Clientes import Clientes
 
 class MenuUsuario:
     def __init__(self):
@@ -188,4 +188,9 @@ class MenuUsuario:
         self.menuGui.destroy()
 
 
-MenuUsuario()
+usuario = Clientes()
+pruebaMenu = PruebaMenu("Clientes")
+pruebaMenu.objeto = usuario
+pruebaMenu.comoBox = [('Roles',"SELECT id_rol, tipo_rol FROM roles")]
+pruebaMenu.camposIgnorados = ['id_rol']
+pruebaMenu.crearMenu()
