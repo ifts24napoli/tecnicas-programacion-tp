@@ -21,7 +21,7 @@ class MenuUsuario:
 
         opciones = [
             ("Salir", self.salir),
-            ("Crear Usuario", self.usuarioNuevo),
+            ("Crear Usuario", self.abrirFormularioUsuarioNuevo),
             ("Modificar Usuario", self.listarUsuarios),
             ("Eliminar Usuario", self.eliminarUsuario)
         ]
@@ -34,26 +34,6 @@ class MenuUsuario:
 
     def verificoRol(self):
         return consultasRol("SELECT id_rol, tipo_rol FROM roles")
-
-    def usuarioNuevo(self):
-        usuarios = Usuarios()
-        print("Alta de Usuarios del Sistema")
-        usuarios.nombre = input("Ingrese Nombre del Usuario: ")
-        usuarios.apellido = input("Ingrese Apellido del Usuario: ")
-        usuarios.mail = input("Ingrese Mail: ")
-        respuesta = dict(self.verificoRol())
-
-        while True:
-            usuarios.id_rol = int(input("Seleccione un Rol ID: "))
-            if usuarios.id_rol in respuesta:
-                confirmacion = input("Confirma el cambio s/n? ")
-                if confirmacion.lower() == "s":
-                    resultado = agregar(usuarios)
-                    print(resultado[1])
-                else:
-                    print("No se guardaron los cambios")
-                break
-            print("Debe seleccionar un ID Rol de la lista")
 
     def listarUsuarios(self):
         resultados = consultas("""
@@ -148,7 +128,7 @@ class MenuUsuario:
                 if v == combo_rol.get():
                     usuario.id_rol = k
                     break
-
+                    
             actualiza("id_usuario", id_usuario, usuario)
             
             messagebox.showinfo("Éxito", "Usuario actualizado correctamente")
@@ -160,14 +140,46 @@ class MenuUsuario:
         ttk.Button(ventana_edicion, text="Guardar Cambios", command=guardarCambios).pack(pady=10)
 
     def abrirFormularioUsuarioNuevo(self):
-        usuario = Usuarios()
         ventana = Toplevel(self.menuGui)
-        ventana.title("Lista de Usuarios")
+        ventana.title("Crear Usuario")
         ventana.geometry("800x300")
         ttk.Label(ventana, text="Nombre:").pack()
         entry_nombre = ttk.Entry(ventana)
         entry_nombre.pack()
+        ttk.Label(ventana, text="Apellido:").pack()
+        entry_apellido = ttk.Entry(ventana)
+        entry_apellido.pack()
+        ttk.Label(ventana, text="Dni:").pack()
+        entry_dni = ttk.Entry(ventana)
+        entry_dni.pack()
+        ttk.Label(ventana, text="Mail:").pack()
+        entry_mail = ttk.Entry(ventana)
+        entry_mail.pack()
         
+        ttk.Label(ventana, text="Rol:").pack()
+        roles = dict(self.verificoRol())
+        combo_rol = ttk.Combobox(ventana, values=list(roles.values()))
+        combo_rol.set(list(roles.values())[0])
+        combo_rol.pack()
+        
+        def guardarCambios():
+            usuario = Usuarios()
+            usuario.nombre = entry_nombre.get()
+            usuario.apellido = entry_apellido.get()
+            usuario.dni = entry_dni.get()
+            usuario.mail = entry_mail.get()
+
+            for k, v in roles.items():
+                if v == combo_rol.get():
+                    usuario.id_rol = k
+                    break
+            
+            if usuario.nombre != "" and usuario.apellido != "" and usuario.mail != "":    
+                agregar(usuario)
+                messagebox.showinfo("Éxito", "Usuario creado correctamente")
+                ventana.destroy()
+            else: messagebox.showinfo("Error", "Debe llenar los cambos Nombre, Apellido y Mail")    
+        ttk.Button(ventana, text="Guardar Cambios", command=guardarCambios).pack(pady=10)    
         
     def eliminarUsuario(self):
         print("Elimino Usuario")
@@ -175,3 +187,5 @@ class MenuUsuario:
     def salir(self):
         self.menuGui.destroy()
 
+
+MenuUsuario()
