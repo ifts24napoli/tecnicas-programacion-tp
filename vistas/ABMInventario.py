@@ -34,9 +34,8 @@ def IngresarInventario():
     inventario.codigo = input("Ingrese el codigo del producto: ")
     inventario.descripcion = input("Ingrese la descripcion: ")
     inventario.stock = int(input("Ingrese el stock: "))
-    print (inventario.codigo)
-    insertar =  agregar(Inventario)
-    print(insertar) 
+    insetar =  agregar(inventario)
+    print(insetar) 
     
 #def ModificarInventario():
 #def ConsultarInventario():
