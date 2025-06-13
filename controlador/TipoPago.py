@@ -10,4 +10,4 @@ def actualiza(filtro, valorFiltro, tipopago):
     actualizar("tipo_pagos", filtro, valorFiltro, **tipopago.__dict__)
 
 def consultas(query):
-    consultar(query)
+    return consultar(query)
