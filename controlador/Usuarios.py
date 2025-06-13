@@ -10,6 +10,4 @@ def actualiza(filtro, valorFiltro, usuarios):
     actualizar("usuarios", filtro, valorFiltro, **usuarios.__dict__)
 
 def consultas(query):
-    consultar(query)
-    
-   
+    return consultar(query)
