@@ -1,12 +1,12 @@
+from tkinter import *
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from tkinter import messagebox
 from controlador.Usuarios import agregar, actualiza, consultas
 from controlador.Roles import consultas as consultasRol
 from modelo.Usuarios import Usuarios
-from tkinter import *
 from tkinter import ttk
 import ast
-from tkinter import messagebox
 from vistas.PruebaMenu import PruebaMenu
 from modelo.Clientes import Clientes
 
@@ -187,10 +187,10 @@ class MenuUsuario:
     def salir(self):
         self.menuGui.destroy()
 
-
-usuario = Clientes()
-pruebaMenu = PruebaMenu("Clientes")
-pruebaMenu.objeto = usuario
-pruebaMenu.comoBox = [('Roles',"SELECT id_rol, tipo_rol FROM roles")]
-pruebaMenu.camposIgnorados = ['id_rol']
-pruebaMenu.crearMenu()
+# MenuUsuario()
+# usuario = Clientes()
+# pruebaMenu = PruebaMenu("Clientes")
+# pruebaMenu.objeto = usuario
+# pruebaMenu.comoBox = [('Roles',"SELECT id_rol, tipo_rol FROM roles")]
+# pruebaMenu.camposIgnorados = ['id_rol']
+# pruebaMenu.crearMenu()
