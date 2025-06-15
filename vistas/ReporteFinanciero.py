@@ -73,9 +73,11 @@ def informe(reporteGui, fechaInicio, fechaFin):
         resultados = consultas(f"""select I.codigo, I.descripcion,  cantidad
                                     from comodatos as Com
                                     inner join inventario as I On I.id_inventario = Com.id_inventario
-                                    where id_contrato = {valores[0]}  """)
+                                    inner join contratos as Contr ON Contr.id_contrato = Com.id_contrato
+                                    inner join clientes as Cli On cli.id_clientes = Contr.id_cliente
+                                    where Contr.id_contrato = {valores[0]}  """)
         ventana = Toplevel(reporteGui)
-        ventana.title("Comodatos")
+        ventana.title(f"Comodatos: {valores[2]}")
         columnas = ("Codigo", "Descripcion", "Cantidad")
         tree = ttk.Treeview(ventana, columns=columnas, show="headings")
         for col in columnas:
