@@ -27,10 +27,8 @@ def menu():
     reporteGui.mainloop()
     
 def informe(reporteGui, fechaInicio, fechaFin):
-    
-    print(fechaInicio)
     resultados = consultas(f"""
-            select fecha_factura as Fecha, CONCAT(Cli.nombre, ' ', Cli.apellido) as Cliente, Pl.descripcion as Servicio,  
+            select C.id_Contrato, fecha_factura as Fecha, CONCAT(Cli.nombre, ' ', Cli.apellido) as Cliente, Pl.descripcion as Servicio,  
 			Monto, TP.descripcion as 'Tipo de Pago', F.estado 
 			from facturacion as F
             inner join contratos as C On C.id_contrato = F.id_contrato
@@ -40,12 +38,12 @@ def informe(reporteGui, fechaInicio, fechaFin):
             where fecha_factura    between '{fechaInicio}' and '{fechaFin}'
         """)
     ventana = Toplevel(reporteGui)
-    columnas = ("Fecha", "Cliente", "Servicio", "Monto", "Tipo de Pago", "Estado")
+    columnas = ("id_Contrato", "Fecha", "Cliente", "Servicio", "Monto", "Tipo de Pago", "Estado")
     tree = ttk.Treeview(ventana, columns=columnas, show="headings")
     for col in columnas:
         tree.heading(col, text=col)
         tree.column(col, width=120)
-    usuarios_limpios = []
+    reporte_limpio = []
 
     for fila in resultados:
         # Paso 1: convertir a tupla real si viene como string
@@ -57,12 +55,48 @@ def informe(reporteGui, fechaInicio, fechaFin):
             str(dato).strip().strip("'") if dato is not None else "" for dato in fila
         )
 
-        usuarios_limpios.append(fila_limpia)
+        reporte_limpio.append(fila_limpia)
 
-    for fila in usuarios_limpios:
+    for fila in reporte_limpio:
         tree.insert("", "end", values=fila)
 
     tree.pack(expand=True, fill="both")    
+    def doble_click(event):
+        item = tree.selection()
+        if item:
+            valores = tree.item(item[0], 'values')
+            comodatos(valores, tree , ventana)
+
+    tree.bind("<Double-1>", doble_click)
     
-    
+    def comodatos(valores, tree, ventana):
+        resultados = consultas(f"""select I.codigo, I.descripcion,  cantidad
+                                    from comodatos as Com
+                                    inner join inventario as I On I.id_inventario = Com.id_inventario
+                                    where id_contrato = {valores[0]}  """)
+        ventana = Toplevel(reporteGui)
+        ventana.title("Comodatos")
+        columnas = ("Codigo", "Descripcion", "Cantidad")
+        tree = ttk.Treeview(ventana, columns=columnas, show="headings")
+        for col in columnas:
+            tree.heading(col, text=col)
+            tree.column(col, width=120)
+        reporte_limpio = []
+
+        for fila in resultados:
+            # Paso 1: convertir a tupla real si viene como string
+            if isinstance(fila, str):
+                fila = ast.literal_eval(fila)
+
+            # Paso 2: limpiar comillas simples (solo si se necesita)
+            fila_limpia = tuple(
+                str(dato).strip().strip("'") if dato is not None else "" for dato in fila
+            )
+
+            reporte_limpio.append(fila_limpia)
+
+        for fila in reporte_limpio:
+            tree.insert("", "end", values=fila)
+        tree.pack(expand=True, fill="both")   
+        print(resultados)
 menu()    
