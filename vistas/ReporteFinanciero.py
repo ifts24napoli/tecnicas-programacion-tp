@@ -31,7 +31,7 @@ def informe(reporteGui, fechaInicio, fechaFin):
     print(fechaInicio)
     resultados = consultas(f"""
             select fecha_factura as Fecha, CONCAT(Cli.nombre, ' ', Cli.apellido) as Cliente, Pl.descripcion as Servicio,  
-			Monto, TP.descripcion as 'Tipo de Pago' 
+			Monto, TP.descripcion as 'Tipo de Pago', F.estado 
 			from facturacion as F
             inner join contratos as C On C.id_contrato = F.id_contrato
 			inner join clientes as Cli on cli.id_clientes = C.id_cliente
@@ -40,7 +40,7 @@ def informe(reporteGui, fechaInicio, fechaFin):
             where fecha_factura    between '{fechaInicio}' and '{fechaFin}'
         """)
     ventana = Toplevel(reporteGui)
-    columnas = ("Fecha", "Cliente", "Servicio", "Monto", "Tipo de Pago")
+    columnas = ("Fecha", "Cliente", "Servicio", "Monto", "Tipo de Pago", "Estado")
     tree = ttk.Treeview(ventana, columns=columnas, show="headings")
     for col in columnas:
         tree.heading(col, text=col)
