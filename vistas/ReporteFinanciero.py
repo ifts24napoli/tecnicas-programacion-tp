@@ -38,7 +38,7 @@ def informe(reporteGui, fechaInicio, fechaFin):
             where fecha_factura    between '{fechaInicio}' and '{fechaFin}'
         """)
     ventana = Toplevel(reporteGui)
-    columnas = ("id_Contrato", "Fecha", "Cliente", "Servicio", "Monto", "Tipo de Pago", "Estado")
+    columnas = ("id_Contrato", "Fecha", "Cliente", "Servicio/Plan", "Monto", "Tipo de Pago", "Estado")
     tree = ttk.Treeview(ventana, columns=columnas, show="headings")
     for col in columnas:
         tree.heading(col, text=col)
