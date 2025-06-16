@@ -10,4 +10,4 @@ def actualiza(filtro, valorFiltro, planes):
     actualizar("planes", filtro, valorFiltro, **planes.__dict__)
 
 def consultas(query):
-    consultar(query)
+    return consultar(query)
