@@ -22,6 +22,8 @@ def abmInventario():
                 modificarInventario()
             elif opcion == 3:
                 consultarInventario()
+            else:
+                print("Opción no válida, ingrese un numero valido")
         except ValueError:
             print ("Debe ingresar un valos numérico")
             continue   
@@ -31,33 +33,67 @@ def abmInventario():
 def IngresarInventario():
     inventario = Inventario()
     print("Alta de Inventario del Sistema")
-    inventario.codigo = input("Ingrese el codigo del producto: ")
-    inventario.descripcion = input("Ingrese la descripcion: ")
-    inventario.stock = int(input("Ingrese el stock: "))
-    insetar =  agregar(inventario)
-    print(insetar) 
-    
+    inventario.codigo = input("Ingrese el código del producto: ")
+    inventario.descripcion = input("Ingrese la descripción: ")
+
+    while True:
+        try:
+            inventario.stock = int(input("Ingrese el stock: "))
+            break
+        except ValueError:
+            print("Debe ingresar un número entero para el stock.")
+
+    while True:
+        opcion = input("¿Desea agregar el inventario? (s/n): ").strip().lower()
+        if opcion == "s":                
+            insertar = agregar(inventario)
+            print(insertar) 
+        elif opcion == "n":
+            break
+        else:
+            print("Opción incorrecta. Intente nuevamente.")
+            continue
+        break
+      
+  
+   
 def modificarInventario():
+    consultas("select * from inventario")
     inventario = Inventario()
     while True:
         consulta_inventario =int (input("Ingrese el id del inventario que desea modificar: "))
         respuesta = consultas(f"""Select id_inventario, codigo, descripcion, stock from inventario
                                 where id_inventario = '{consulta_inventario}'""")
         if not respuesta:
-            print("El id inventario no existe")
+            print("El ID de inventario no existe.")
             continue 
         break
+    
     id_inventario = respuesta[0][0]
-    codigo = input("Ingrese el codigo: ")
+    codigo = input("Ingrese el código (Enter para mantener actual): ")
     if codigo != "":
         inventario.codigo = codigo
-    descripcion = input("Ingrese la descripcion: ")
+    else:
+        inventario.codigo = respuesta[0][1]
+
+    descripcion = input("Ingrese la descripción (Enter para mantener actual): ")
     if descripcion != "":  
-        inventario.descripcion= descripcion
-    stock = input("Ingrese el stock: ")   
+        inventario.descripcion = descripcion
+    else:
+        inventario.descripcion = respuesta[0][2]
+
+    stock = input("Ingrese el stock (Enter para mantener actual): ")   
     if stock != "":
-        inventario.stock = stock 
-    modificar = actualiza("id_inventario",id_inventario,inventario)
+        try:
+            inventario.stock = int(stock)
+        except ValueError:
+            print("Stock inválido, se mantiene el valor anterior.")
+            inventario.stock = respuesta[0][3]
+    else:
+        inventario.stock = respuesta[0][3] 
+
+    modificar = actualiza("id_inventario", id_inventario, inventario)
+    
    
 
 def consultarInventario():
