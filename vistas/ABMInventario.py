@@ -27,36 +27,46 @@ def abmInventario():
         except ValueError:
             print ("Debe ingresar un valos numérico")
             continue   
-            
-            
+  
+     
             
 def IngresarInventario():
     inventario = Inventario()
     print("Alta de Inventario del Sistema")
-    inventario.codigo = input("Ingrese el código del producto: ")
-    inventario.descripcion = input("Ingrese la descripción: ")
-
+    
+    while True:
+        inventario.codigo = input("Ingrese el código del producto: ")
+        if inventario.codigo != "":
+            break
+        else:
+            print("El código no puede estar vacío. Intente nuevamente.")
+    
+    
+    while True:
+        inventario.descripcion = input("Ingrese la descripción: ")
+        if inventario.descripcion != "":
+            break
+        else:
+            print("La descripción no puede estar vacía. Intente nuevamente.")
+    
     while True:
         try:
             inventario.stock = int(input("Ingrese el stock: "))
             break
         except ValueError:
             print("Debe ingresar un número entero para el stock.")
-
+   
     while True:
-        opcion = input("¿Desea agregar el inventario? (s/n): ").strip().lower()
+        opcion = input("¿Desea agregar el inventario? (s/n): ")
         if opcion == "s":                
             insertar = agregar(inventario)
             print(insertar) 
+            break
         elif opcion == "n":
             break
         else:
             print("Opción incorrecta. Intente nuevamente.")
-            continue
-        break
-      
   
-   
 def modificarInventario():
     consultas("select * from inventario")
     inventario = Inventario()
@@ -94,8 +104,6 @@ def modificarInventario():
 
     modificar = actualiza("id_inventario", id_inventario, inventario)
     
-   
-
 def consultarInventario():
     while True:
         opcion = input("¿Desea consultar el inventario completo? (s/n): ").strip().lower()
