@@ -21,12 +21,14 @@ def menu():
     lbFechaFin.grid(row=1, column=0, sticky="w", padx=5, pady=5)
     date_fin = DateEntry(frame, width=12,  date_pattern='yyyy-mm-dd')
     date_fin.grid(row=1, column=1, padx=5, pady=5)
-    btn_informe = ttk.Button(frame, text="Reporte", command=lambda: informe(reporteGui, date_inicio.get(), date_fin.get()))
-    btn_informe.grid(row=2, column=0, padx=5, pady=5)
+    btn_facturacion = ttk.Button(frame, text="Facturaion", command=lambda: facturacion(reporteGui, date_inicio.get(), date_fin.get()))
+    btn_facturacion.grid(row=2, column=0, padx=5, pady=5)
+    btn_rendimiento = ttk.Button(frame, text="Rendimientos", command=lambda: rendimientos(date_inicio.get(), date_fin.get()))
+    btn_rendimiento.grid(row=2, column=1, padx=5, pady=5)
     
     reporteGui.mainloop()
     
-def informe(reporteGui, fechaInicio, fechaFin):
+def facturacion(reporteGui, fechaInicio, fechaFin):
     resultados = consultas(f"""
             select C.id_Contrato, fecha_factura as Fecha, CONCAT(Cli.nombre, ' ', Cli.apellido) as Cliente, Pl.descripcion as Servicio,  
 			Monto, TP.descripcion as 'Tipo de Pago', F.estado 
@@ -35,7 +37,7 @@ def informe(reporteGui, fechaInicio, fechaFin):
 			inner join clientes as Cli on cli.id_clientes = C.id_cliente
 			inner join planes as Pl on Pl.id_planes = C.id_plan
 			inner join tipo_pagos as TP on TP.id_tipo_pago = C.id_tipo_pago
-            where fecha_factura    between '{fechaInicio}' and '{fechaFin}'
+            where fecha_factura  between '{fechaInicio}' and '{fechaFin}'
         """)
     ventana = Toplevel(reporteGui)
     columnas = ("id_Contrato", "Fecha", "Cliente", "Servicio/Plan", "Monto", "Tipo de Pago", "Estado")
@@ -69,7 +71,7 @@ def informe(reporteGui, fechaInicio, fechaFin):
 
     tree.bind("<Double-1>", doble_click)
     
-    def comodatos(valores, tree, ventana):
+    def comodatos(valores, tree, ventana):        
         resultados = consultas(f"""select I.codigo, I.descripcion,  cantidad
                                     from comodatos as Com
                                     inner join inventario as I On I.id_inventario = Com.id_inventario
@@ -100,5 +102,35 @@ def informe(reporteGui, fechaInicio, fechaFin):
         for fila in reporte_limpio:
             tree.insert("", "end", values=fila)
         tree.pack(expand=True, fill="both")   
-        print(resultados)
+
+def rendimientos(fechaInicio, fechaFin):
+    resultados = consultas(f"""select sum(monto) as Total, COUNT(*) as Cantidad
+                                from facturacion
+                                where fecha_factura between '{fechaInicio}' and '{fechaFin}'""")
+    print(resultados[0][0])
+    rendimientoGui = Tk()
+    rendimientoGui.title("Rendimiento")
+    rendimientoGui.geometry("300x150")
+    frame = ttk.Frame(rendimientoGui, padding=20)
+    frame.pack(expand=True)
+    lbFechaInicio = ttk.Label(frame, text="Fecha Inicio: ")
+    lbFechaInicio.grid(row=0, column=0, sticky="w", padx=5, pady=5)
+    lbfechaInicioIngresada = ttk.Label(frame, text=f"{fechaInicio}")
+    lbfechaInicioIngresada.grid(row=0, column=1, sticky="w", padx=5, pady=5)
+    lbFechaFin = ttk.Label(frame, text="Fecha Fin: ")
+    lbFechaFin.grid(row=1, column=0, sticky="w", padx=5, pady=5 )
+    lbFechaFinIngresada = ttk.Label(frame, text=f"{fechaFin}")
+    lbFechaFinIngresada.grid(row=1, column=1, sticky="w", padx=5, pady=5)
+    lbFacturacionTotal = ttk.Label(frame, text="Facturacion Total: ")
+    lbFacturacionTotal.grid(row=2, column=0, sticky="w", padx=5, pady=5)
+    if resultados[0][0] != None:
+        lbTotal = ttk.Label(frame, text=f"${resultados[0][0]}")
+    else:
+        lbTotal = ttk.Label(frame, text="$0")    
+    lbTotal.grid(row=2, column=1, sticky="w", padx=5, pady=5)
+    lbCantidadFactutas = ttk.Label(frame, text=f"Cantidad Facturas: ")
+    lbCantidadFactutas.grid(row=3, column=0, sticky="w", padx=5, pady=5)
+    lbCantidadTotales = ttk.Label(frame, text=f"{resultados[0][1]}")
+    lbCantidadTotales.grid(row=3, column=1, sticky="w", padx=5, pady=5)
+    rendimientoGui.mainlopp()
 menu()    
