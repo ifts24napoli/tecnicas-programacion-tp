@@ -48,7 +48,7 @@ def crearPlan():
 
 def modificarPlan():
     print("=== Modificar Plan ===")
-    listarPlanes()
+    resultado = listarPlanes()
     id_plan = int(input("Ingrese el ID del plan a modificar: "))
     
     descripcion = input("Nueva descripción (opcional, dejar en blanco si no quiere cambiarlo): ")
@@ -60,7 +60,9 @@ def modificarPlan():
         plan.descripcion = descripcion
     if precio:
         plan.precio = float(precio)
-        
+    else:
+        plan.precio= resultado[0][2]
+
     confirmacion = input("¿Confirma los cambios? (s/n): ")
     if confirmacion.lower() == "s":
         actualiza("id_planes", id_plan, plan)
@@ -80,7 +82,8 @@ def listarPlanes():
     for fila in resultados:
         id_plan, descripcion, costo = fila
         print(f"ID: {id_plan}, Descripción: {descripcion}, Precio: ${float(costo):.2f}")
+    
+    return resultados
 
 
 
-abmPlanes()
