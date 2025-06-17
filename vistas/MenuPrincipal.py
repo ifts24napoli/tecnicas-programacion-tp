@@ -1,12 +1,11 @@
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from vistas.ABMUsuario import MenuUsuario
-from vistas.ABMClientes import abmClientes
+from vistas.ABMClientes import MenuCliente
 from Autenticacion.Sesion import Sesion
 
 def despejar():
     os.system("cls" if os.name == "nt" else "clear")
-    
     
 def creoMenu(sesion:Sesion):
     menu = ['Hola: ' + sesion.email_usuario]
@@ -38,9 +37,9 @@ def MenuPrincipal(sesion:Sesion):
             elif opcion == 1:
                 MenuUsuario()
             elif opcion	 == 2:
-                abmClientes()
+                MenuCliente()
             elif opcion == 3:
-                print("ventas")    
+                print("ventas")
         except ValueError:
             print("Debe ingresar un valor numérico")
 
