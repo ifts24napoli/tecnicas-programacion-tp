@@ -3,6 +3,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from controlador.Inventario import agregar,actualiza, consultas
 from modelo.Inventario import Inventario
 
+#Función de menu
 def abmInventario():
     while True:
         print("""Selecciones una de las siguientes opciones: 
@@ -29,46 +30,50 @@ def abmInventario():
             continue   
   
      
-            
+#Funcion Ingresar inventario           
 def IngresarInventario():
     inventario = Inventario()
     print("Alta de Inventario del Sistema")
-    
+
+    # Función para validar entrada no vacía
+    def entrada_no_vacia(mensaje):
+        while True:
+            valor = input(mensaje).strip()
+            if valor != "":
+                return valor
+            print("El valor no puede estar vacío. Intente nuevamente.")
+
+    # Función  para validar enteros
+    def entrada_entero(mensaje):
+        while True:
+            try:
+                return int(input(mensaje))
+            except ValueError:
+                print("Debe ingresar un número entero válido.")
+
+    #Carga de datos
+    inventario.codigo = entrada_no_vacia("Ingrese el código del producto: ")
+    inventario.descripcion = entrada_no_vacia("Ingrese la descripción: ")
+    inventario.stock = entrada_entero("Ingrese el stock: ")
+
+    #Confirmacion
     while True:
-        inventario.codigo = input("Ingrese el código del producto: ")
-        if inventario.codigo != "":
-            break
-        else:
-            print("El código no puede estar vacío. Intente nuevamente.")
-    
-    
-    while True:
-        inventario.descripcion = input("Ingrese la descripción: ")
-        if inventario.descripcion != "":
-            break
-        else:
-            print("La descripción no puede estar vacía. Intente nuevamente.")
-    
-    while True:
-        try:
-            inventario.stock = int(input("Ingrese el stock: "))
-            break
-        except ValueError:
-            print("Debe ingresar un número entero para el stock.")
-   
-    while True:
-        opcion = input("¿Desea agregar el inventario? (s/n): ")
-        if opcion == "s":                
-            insertar = agregar(inventario)
-            print(insertar) 
+        opcion = input("¿Desea agregar el inventario? (s/n): ").lower()
+        if opcion == "s":
+            resultado = agregar(inventario)
+            print(resultado)
             break
         elif opcion == "n":
+            print("Operación cancelada.")
             break
         else:
             print("Opción incorrecta. Intente nuevamente.")
-  
+ 
+#Función modificar inventario  
 def modificarInventario():
-    consultas("select * from inventario")
+    resultado = consultas("SELECT id_inventario, codigo, descripcion, stock FROM inventario")
+    for fila in resultado:
+        print(f"ID: {fila[0]}, Código: {fila[1]}, Descripción: {fila[2]}, Stock: {fila[3]}")
     inventario = Inventario()
     while True:
         consulta_inventario =int (input("Ingrese el id del inventario que desea modificar: "))
@@ -83,15 +88,11 @@ def modificarInventario():
     codigo = input("Ingrese el código (Enter para mantener actual): ")
     if codigo != "":
         inventario.codigo = codigo
-    else:
-        inventario.codigo = respuesta[0][1]
-
+    
     descripcion = input("Ingrese la descripción (Enter para mantener actual): ")
     if descripcion != "":  
         inventario.descripcion = descripcion
-    else:
-        inventario.descripcion = respuesta[0][2]
-
+    
     stock = input("Ingrese el stock (Enter para mantener actual): ")   
     if stock != "":
         try:
@@ -103,7 +104,8 @@ def modificarInventario():
         inventario.stock = respuesta[0][3] 
 
     modificar = actualiza("id_inventario", id_inventario, inventario)
-    
+
+#Función Consultar Inventario  
 def consultarInventario():
     while True:
         opcion = input("¿Desea consultar el inventario completo? (s/n): ").strip().lower()
