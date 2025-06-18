@@ -47,7 +47,11 @@ def IngresarInventario():
     def entrada_entero(mensaje):
         while True:
             try:
-                return int(input(mensaje))
+                numero = int(input(mensaje))
+                if numero > 0:
+                    return numero
+                else:
+                    print("Debe ingresar un número entero positivo.")
             except ValueError:
                 print("Debe ingresar un número entero válido.")
 
@@ -93,18 +97,24 @@ def modificarInventario():
     if descripcion != "":  
         inventario.descripcion = descripcion
     
-    stock = input("Ingrese el stock (Enter para mantener actual): ")   
-    if stock != "":
-        try:
-            inventario.stock = int(stock)
-        except ValueError:
-            print("Stock inválido, se mantiene el valor anterior.")
+    while True:
+        stock = input("Ingrese el stock (Enter para mantener actual): ")
+        if stock == "":
             inventario.stock = respuesta[0][3]
-    else:
-        inventario.stock = respuesta[0][3] 
+            break
+        try:
+            stock_int = int(stock)
+            if stock_int > 0:
+                inventario.stock = stock_int
+                break
+            else:
+                print("El stock debe ser un número entero positivo.")
+        except ValueError:
+            print("Stock inválido. Ingrese un número entero positivo o presione Enter para mantener el actual.")
 
     modificar = actualiza("id_inventario", id_inventario, inventario)
 
+  
 #Función Consultar Inventario  
 def consultarInventario():
     while True:
