@@ -35,8 +35,7 @@ class Mail:
             server.quit()
             print("Correo enviado correctamente.")
         except Exception as e:
-            print("Error al enviar el correo:", e)
-            print('Prueba')        
+            print("Error al enviar el correo:", e)       
     
 mail = Mail()
 mail.asunto = "Alta de cliente"

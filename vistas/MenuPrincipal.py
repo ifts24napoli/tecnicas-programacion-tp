@@ -63,7 +63,7 @@ def GuiMenuPrincipal(sesion:Sesion):
     texto_sesion_usuario.grid(column=0, row=1, sticky="w")
     btn_usuarios = ttk.Button(frm, text=TEXTO_USUARIOS, command=MenuUsuario)
     btn_usuarios.grid(column=0, row=2, sticky="w")
-    btn_clientes = ttk.Button(frm, text=TEXTO_CLIENTES, command=MenuUsuario)
+    btn_clientes = ttk.Button(frm, text=TEXTO_CLIENTES, command=MenuCliente)
     btn_clientes.grid(column=0, row=3, sticky="w")
     def cerrar_sesion():
         sesion.desconectar()

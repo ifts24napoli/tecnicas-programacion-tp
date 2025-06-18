@@ -34,6 +34,11 @@ class MenuUsuario:
 
     def verificoRol(self):
         return consultasRol("SELECT id_rol, tipo_rol FROM roles")
+    
+    def veridicoMail(self,mail):
+        return consultas (f"""select count(*) 
+                            from usuarios 
+                            where mail = '{mail}' """)
 
     def listarUsuarios(self):
         resultados = consultas("""
@@ -134,7 +139,7 @@ class MenuUsuario:
                 if v == combo_rol.get():
                     usuario.id_rol = k
                     break
-                    
+                         
             actualiza("id_usuario", id_usuario, usuario)
             
             messagebox.showinfo("Éxito", "Usuario actualizado correctamente")
@@ -175,7 +180,7 @@ class MenuUsuario:
         combo_rol.pack()
         
         def guardarCambios():
-            usuario = Usuarios()
+            usuario = Usuarios()    
             usuario.nombre = entry_nombre.get()
             usuario.apellido = entry_apellido.get()
             usuario.dni = entry_dni.get()
@@ -186,15 +191,19 @@ class MenuUsuario:
                 if v == combo_rol.get():
                     usuario.id_rol = k
                     break
-            
-            if usuario.pwd == entry_password_repetido.get():
-                if usuario.nombre != "" and usuario.apellido != "" and usuario.mail != "":    
-                    agregar(usuario)
-                    messagebox.showinfo("Éxito", "Usuario creado correctamente")
-                    ventana.destroy()
-                else: messagebox.showinfo("Error", "Debe llenar los cambos Nombre, Apellido y Mail")  
-            else:
-                messagebox.showerror("Error", "Las contraseñas deben ser iguales")      
+             
+            respuesta = self.veridicoMail(usuario.mail)
+            if respuesta[0][0] == 0:
+                if usuario.pwd == entry_password_repetido.get():
+                    if usuario.nombre != "" and usuario.apellido != "" and usuario.mail != "":    
+                        agregar(usuario)
+                        messagebox.showinfo("Éxito", "Usuario creado correctamente")
+                        ventana.destroy()
+                    else: messagebox.showinfo("Error", "Debe llenar los cambos Nombre, Apellido y Mail")  
+                else:
+                    messagebox.showerror("Error", "Las contraseñas deben ser iguales")
+            else : messagebox.showwarning("Error", f"El usuario {usuario.mail} ya Existe") 
+                         
         ttk.Button(ventana, text="Guardar Cambios", command=guardarCambios).pack(pady=10)    
         
     def eliminarUsuario(self):
