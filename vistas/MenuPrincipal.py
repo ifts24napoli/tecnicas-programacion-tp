@@ -14,7 +14,8 @@ VENTANA_TITULO = "Menú Principal"
 
 def despejar():
     os.system("cls" if os.name == "nt" else "clear")
-
+    
+    
 def creoMenu(sesion:Sesion):
     menu = ['Hola: ' + sesion.email_usuario]
     menu.append('\tSelecciones una de las siguientes opciones:')
@@ -46,7 +47,7 @@ def MenuPrincipal(sesion:Sesion):
             elif opcion	 == 2:
                 MenuCliente()
             elif opcion == 3:
-                print("ventas")    
+                print("ventas")
         except ValueError:
             print("Debe ingresar un valor numérico")
 
