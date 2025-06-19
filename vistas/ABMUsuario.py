@@ -34,6 +34,11 @@ class MenuUsuario:
 
     def verificoRol(self):
         return consultasRol("SELECT id_rol, tipo_rol FROM roles")
+    
+    def veridicoMail(self,mail):
+        return consultas (f"""select count(*) 
+                            from usuarios 
+                            where mail = '{mail}' """)
 
     def listarUsuarios(self):
         resultados = consultas("""
@@ -110,6 +115,10 @@ class MenuUsuario:
         entry_mail = ttk.Entry(ventana_edicion)
         entry_mail.insert(0, mail)
         entry_mail.pack()
+        
+        ttk.Label(ventana_edicion, text="Password:").pack()
+        entry_password = ttk.Entry(ventana_edicion, show="*")
+        entry_password.pack()
 
         ttk.Label(ventana_edicion, text="Rol:").pack()
         roles = dict(self.verificoRol())
@@ -123,12 +132,14 @@ class MenuUsuario:
             usuario.apellido = entry_apellido.get()
             usuario.dni = entry_dni.get()
             usuario.mail = entry_mail.get()
+            if entry_password.get() != "":
+                usuario.pwd = entry_password.get()
 
             for k, v in roles.items():
                 if v == combo_rol.get():
                     usuario.id_rol = k
                     break
-                    
+                         
             actualiza("id_usuario", id_usuario, usuario)
             
             messagebox.showinfo("Éxito", "Usuario actualizado correctamente")
@@ -142,7 +153,7 @@ class MenuUsuario:
     def abrirFormularioUsuarioNuevo(self):
         ventana = Toplevel(self.menuGui)
         ventana.title("Crear Usuario")
-        ventana.geometry("800x300")
+        ventana.geometry("500x350")
         ttk.Label(ventana, text="Nombre:").pack()
         entry_nombre = ttk.Entry(ventana)
         entry_nombre.pack()
@@ -155,6 +166,12 @@ class MenuUsuario:
         ttk.Label(ventana, text="Mail:").pack()
         entry_mail = ttk.Entry(ventana)
         entry_mail.pack()
+        ttk.Label(ventana, text="Contraseña:").pack()
+        entry_password = ttk.Entry(ventana, show="*")
+        entry_password.pack()
+        ttk.Label(ventana, text="Repetir Contraseña:").pack()
+        entry_password_repetido = ttk.Entry(ventana, show="*")
+        entry_password_repetido.pack()
         
         ttk.Label(ventana, text="Rol:").pack()
         roles = dict(self.verificoRol())
@@ -163,22 +180,30 @@ class MenuUsuario:
         combo_rol.pack()
         
         def guardarCambios():
-            usuario = Usuarios()
+            usuario = Usuarios()    
             usuario.nombre = entry_nombre.get()
             usuario.apellido = entry_apellido.get()
             usuario.dni = entry_dni.get()
             usuario.mail = entry_mail.get()
+            usuario.pwd = entry_password.get()
 
             for k, v in roles.items():
                 if v == combo_rol.get():
                     usuario.id_rol = k
                     break
-            
-            if usuario.nombre != "" and usuario.apellido != "" and usuario.mail != "":    
-                agregar(usuario)
-                messagebox.showinfo("Éxito", "Usuario creado correctamente")
-                ventana.destroy()
-            else: messagebox.showinfo("Error", "Debe llenar los cambos Nombre, Apellido y Mail")    
+             
+            respuesta = self.veridicoMail(usuario.mail)
+            if respuesta[0][0] == 0:
+                if usuario.pwd == entry_password_repetido.get():
+                    if usuario.nombre != "" and usuario.apellido != "" and usuario.mail != "":    
+                        agregar(usuario)
+                        messagebox.showinfo("Éxito", "Usuario creado correctamente")
+                        ventana.destroy()
+                    else: messagebox.showinfo("Error", "Debe llenar los cambos Nombre, Apellido y Mail")  
+                else:
+                    messagebox.showerror("Error", "Las contraseñas deben ser iguales")
+            else : messagebox.showwarning("Error", f"El usuario {usuario.mail} ya Existe") 
+                         
         ttk.Button(ventana, text="Guardar Cambios", command=guardarCambios).pack(pady=10)    
         
     def eliminarUsuario(self):
@@ -187,7 +212,7 @@ class MenuUsuario:
     def salir(self):
         self.menuGui.destroy()
 
-# MenuUsuario()
+MenuUsuario()
 # usuario = Clientes()
 # pruebaMenu = PruebaMenu("Clientes")
 # pruebaMenu.objeto = usuario
