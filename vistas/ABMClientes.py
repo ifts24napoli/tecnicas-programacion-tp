@@ -21,8 +21,7 @@ class MenuCliente:
         opciones = [
             ("Salir", self.salir),
             ("Crear Cliente", self.clienteNuevo),
-            ("Modificar Cliente", self.listarClientes),
-            ("Eliminar Cliente", self.eliminarCliente)
+            ("Modificar Cliente", self.listarClientes)
         ]
 
         for texto, comando in opciones:
