@@ -8,23 +8,20 @@ from controlador.Tipo_pagos import consultas as consultaspagos
 from modelo.Contratos import Contratos
 from controlador.Mail import Mail
 
+#Funcion para sacar fecha actual.
 from datetime import date
 def obtener_fecha_actual():
     return date.today().strftime("%Y-%m-%d")
 
-def enviarmail (destinatario,nombre_cliente):
+#Funcion para enviar Mail.
+def enviarmail (destinatario,asunto,mensaje):
     mail = Mail()
-    mail.asunto = "Alta de cliente"
-    mail.mensaje = f""" Bienvenido {nombre_cliente} a nuestra comunidad. Para nosotros, no sos solo un cliente:
-    sos parte de nuestra familia. 
-    Nuestro compromiso es brindarte un servicio de telecomunicaciones confiable, 
-    cercano y de calidad, construyendo juntos una relación basada en la confianza, 
-    la atención personalizada y la mejora constante.
-    Att Matias Napoli (Director de Ventas)"""
+    mail.asunto = asunto
+    mail.mensaje = mensaje
     mail.detinatario = destinatario
     mail.envioMail()  
     
-#Funcion para validad ID
+#Funcion para validad ID.
 def obtener_id_valido(tabla, campo_id, mensaje, funcion_verificacion):
     while True:
         consultas(f"SELECT * FROM {tabla}")
@@ -47,7 +44,7 @@ def obtener_id_valido(tabla, campo_id, mensaje, funcion_verificacion):
 
         return id_valor 
 
-
+#Funcion Munu Contratos:
 def abmContratos():
     while True:
         print("""Selecciones una de las siguientes opciones: 
@@ -73,11 +70,16 @@ def abmContratos():
             print ("Debe ingresar un valos numérico")
             continue   
         
-
+#Funcion Alta Contrato.
 def AltaContrato():
-    resultado = consultas("SELECT * FROM contratos")
+  
+    resultado = consultas("""SELECT C.*, E.*, concat (Cli.nombre,', ',Cli.apellido) as Nombre , P.*,T.* FROM contratos as C
+                          inner join estados as E on E.Id_estados =C.Id_estado
+                          inner join clientes as Cli on Cli.id_clientes = C.id_cliente
+                          inner join planes as P on P.id_planes = C.id_plan
+                          inner join tipo_pagos as T on T.id_tipo_pago = C.id_tipo_pago """)
     for fila in resultado:
-        print(f"ID: {fila[0]}, Fecha de alta: {fila[1]}, Fecha de baja: {fila[2]}, Motivo de baja: {fila[3]}, Id Cliente: {fila[4]}, Id Plan: {fila[5]}, Id Tipo de pago: {fila[6]}, Id Estado: {fila[7]}")
+        print(f"ID: {fila[0]}, Fecha de alta: {fila[1]}, Fecha de baja: {fila[2]}, Motivo de baja: {fila[3]}, Cliente: {fila[10]}, Plan: {fila[12]}, Tipo de pago: {fila[15]}, Estado: {fila[9]}")
     contrato = Contratos()
     print("Alta de Contrato del Sistema")
 
@@ -105,9 +107,9 @@ def AltaContrato():
         "Ingrese el ID del tipo de pago que desea asignar al contrato: ",
         consultaspagos
     )
-
     contrato.id_estado = 1
-
+    
+    #Confirmar Alta.
     while True:
         opcion = input("¿Desea agregar el contrato? (s/n): ").strip().lower()
         if opcion == "s":
@@ -120,7 +122,14 @@ def AltaContrato():
                 INNER JOIN clientes AS C ON C.id_clientes = con.id_cliente
                 WHERE C.id_clientes = {contrato.id_cliente}
             """)
-            enviarmail(datos[0][0], datos[0][1])
+            ASUNTO= "Alta de cliente"
+            MENSAJE = f""" Bienvenido {datos[0][1]} a nuestra comunidad. Para nosotros, no sos solo un cliente:
+            sos parte de nuestra familia. 
+            Nuestro compromiso es brindarte un servicio de telecomunicaciones confiable, 
+            cercano y de calidad, construyendo juntos una relación basada en la confianza, 
+            la atención personalizada y la mejora constante.
+            Att Matias Napoli (Director de Ventas)"""
+            enviarmail(datos[0][0],ASUNTO,MENSAJE)
             break
         elif opcion == "n":
             break
@@ -128,11 +137,15 @@ def AltaContrato():
             print("Opción incorrecta. Intente nuevamente.")
 
 
-
+#Funcion Baja Contrato.
 def BajaContrato():
-    resultado = consultas("SELECT * FROM contratos")
+    resultado = consultas("""SELECT C.*, E.*, concat (Cli.nombre,', ',Cli.apellido) as Nombre , P.*,T.* FROM contratos as C
+                          inner join estados as E on E.Id_estados =C.Id_estado
+                          inner join clientes as Cli on Cli.id_clientes = C.id_cliente
+                          inner join planes as P on P.id_planes = C.id_plan
+                          inner join tipo_pagos as T on T.id_tipo_pago = C.id_tipo_pago """)
     for fila in resultado:
-        print(f"ID: {fila[0]}, Fecha de alta: {fila[1]}, Fecha de baja: {fila[2]}, Motivo de baja: {fila[3]}, Id Cliente: {fila[4]}, Id Plan: {fila[5]}, Id Tipo de pago: {fila[6]}, Id Estado: {fila[7]}")
+        print(f"ID: {fila[0]}, Fecha de alta: {fila[1]}, Fecha de baja: {fila[2]}, Motivo de baja: {fila[3]}, Cliente: {fila[10]}, Plan: {fila[12]}, Tipo de pago: {fila[15]}, Estado: {fila[9]}")
     
     contrato = Contratos()
     
@@ -144,16 +157,15 @@ def BajaContrato():
             continue
 
         respuesta = consultas(f"""SELECT * FROM contratos
-                                  WHERE id_contrato = '{consulta_contrato}'""")
+                                WHERE id_contrato = '{consulta_contrato}'""")
         if not respuesta:
             print("El ID de contrato no existe.")
             continue
 
-        if respuesta[0][7] == 2:  # id_estado = 2 (inactivo)
+        if respuesta[0][7] == 2:  
             print("Este contrato ya está dado de baja (inactivo).")
-            return  # Salir de la función
-        
-        break
+            continue  
+        break  
 
     id_contrato = respuesta[0][0]
     id_cliente = respuesta[0][4]
@@ -169,7 +181,8 @@ def BajaContrato():
             contrato.motivo_baja = motivo
             contrato.id_estado = 2
             break
-
+    
+    #Confirmar Baja.
     while True:
         opcion = input("¿Desea dar de baja el contrato? (s/n): ").strip().lower()
         if opcion == "s":
@@ -183,23 +196,21 @@ def BajaContrato():
                 WHERE C.id_clientes = {id_cliente}
             """)
             if datos:
-                mail = Mail()
-                mail.asunto = "Baja de contrato"
-                mail.mensaje = f""" Estimado/a {datos[0][1]},
+                ASUNTO= "Baja de contrato"
+                MENSAJE = f""" Estimado/a {datos[0][1]},
                 
-Lamentamos saber que has decidido dar de baja nuestro servicio.
+                Lamentamos saber que has decidido dar de baja nuestro servicio.
 
-Queremos agradecerte sinceramente por habernos elegido y habernos permitido acompañarte durante este tiempo. 
-Para nosotros, cada cliente es parte de nuestra comunidad, y tu confianza ha sido muy valiosa.
+                Queremos agradecerte sinceramente por habernos elegido y habernos permitido acompañarte durante este tiempo. 
+                Para nosotros, cada cliente es parte de nuestra comunidad, y tu confianza ha sido muy valiosa.
 
-Si en el futuro decidís volver, estaremos encantados de recibirte nuevamente con los brazos abiertos. 
-Nuestro compromiso sigue siendo ofrecer un servicio de calidad, cercano y humano.
+                Si en el futuro decidís volver, estaremos encantados de recibirte nuevamente con los brazos abiertos. 
+                Nuestro compromiso sigue siendo ofrecer un servicio de calidad, cercano y humano.
 
-Gracias por habernos permitido formar parte de tu camino.
+                Gracias por habernos permitido formar parte de tu camino.
 
-Att. Matías Napoli (Director de Ventas)"""
-                mail.detinatario = datos[0][0]
-                mail.envioMail()
+                Att. Matías Napoli (Director de Ventas)"""
+                enviarmail(datos[0][0],ASUNTO,MENSAJE)
 
             break
         elif opcion == "n":
@@ -208,8 +219,7 @@ Att. Matías Napoli (Director de Ventas)"""
             print("Opción incorrecta. Intente nuevamente.")
 
 
-  
-
+#Funcion Consulta Contrato.
 def ConsultarContratos():
     while True:
         opcion = input("¿Desea consultar la lista de contratos completa? (s/n): ").strip().lower()
