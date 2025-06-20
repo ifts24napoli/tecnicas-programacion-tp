@@ -78,14 +78,25 @@ def modificarInventario():
     resultado = consultas("SELECT id_inventario, codigo, descripcion, stock FROM inventario")
     for fila in resultado:
         print(f"ID: {fila[0]}, Código: {fila[1]}, Descripción: {fila[2]}, Stock: {fila[3]}")
+
     inventario = Inventario()
+
     while True:
-        consulta_inventario =int (input("Ingrese el id del inventario que desea modificar: "))
-        respuesta = consultas(f"""Select id_inventario, codigo, descripcion, stock from inventario
-                                where id_inventario = '{consulta_inventario}'""")
+        entrada = input("Ingrese el id del inventario que desea modificar: ").strip()
+        if not entrada:
+            print("El campo no puede estar vacío.")
+            continue
+        try:
+            consulta_inventario = int(entrada)
+        except ValueError:
+            print("Debe ingresar un número entero válido.")
+            continue
+
+        respuesta = consultas(f"""SELECT id_inventario, codigo, descripcion, stock FROM inventario
+                                  WHERE id_inventario = '{consulta_inventario}'""")
         if not respuesta:
             print("El ID de inventario no existe.")
-            continue 
+            continue
         break
     
     id_inventario = respuesta[0][0]
