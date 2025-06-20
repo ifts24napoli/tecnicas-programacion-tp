@@ -5,4 +5,5 @@ class Usuarios:
         self.mail = datos.get("Mail")
         self.dni = datos.get("Dni")
         self.id_rol = datos.get("Id_rol")
+        self.pwd = datos.get('pwd')
         
