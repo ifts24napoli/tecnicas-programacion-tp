@@ -123,7 +123,7 @@ def modificarInventario():
         except ValueError:
             print("Stock inválido. Ingrese un número entero positivo o presione Enter para mantener el actual.")
 
-    modificar = actualiza("id_inventario", id_inventario, inventario)
+    actualiza("id_inventario", id_inventario, inventario)
 
   
 #Función Consultar Inventario  
