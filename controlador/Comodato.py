@@ -1,4 +1,4 @@
-from BaseDeDatos.Eda import actualizar, insertar, consultar
+from BaseDeDatos.Eda import actualizar, insertar, consultar, eleiminar
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -11,3 +11,6 @@ def actualiza(filtro, valorFiltro, comodato):
 
 def consultas(query):
     return consultar(query)
+
+def eleiminar(filtro, valor):
+    eleiminar("comodato", filtro, valor)
