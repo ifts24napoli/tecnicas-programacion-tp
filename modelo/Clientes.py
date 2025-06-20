@@ -6,5 +6,3 @@ class Clientes:
         self.cuit = datos.get("Cuit")
         self.mail = datos.get("Mail")
         self.direccion = datos.get("Direccion")
-        self.cuit = datos.get("Cuit")
-
