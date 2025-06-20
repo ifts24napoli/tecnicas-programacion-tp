@@ -3,11 +3,11 @@ import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 def agregar(planes):
-    respuesta = insertar("planes", **planes.__dict__) #**alumnos.__dict__ convierto el objeto a Diccionario
+    respuesta = insertar("planes", **planes.__dict__) # Convierte el objeto a diccionario
     return(respuesta)
 
 def actualiza(filtro, valorFiltro, planes):
     actualizar("planes", filtro, valorFiltro, **planes.__dict__)
 
 def consultas(query):
-    consultar(query)
+    return consultar(query)
