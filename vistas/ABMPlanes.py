@@ -1,8 +1,12 @@
+# Este módulo permite realizar operaciones ABM sobre comodatos, verificando y ajustando stock.
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Importación de funciones del controlador y modelo
 from controlador.Planes import agregar, actualiza, consultas
 from modelo.Planes import Planes
 
+# Función principal del menú Planes
 def abmPlanes():
     while True:
         print("""
@@ -16,6 +20,7 @@ def abmPlanes():
         ==========================
         """)
         try:
+            # Se solicita la opción y se convierte a entero
             opcion = int(input("Ingrese una opción: "))
             if opcion == 0:
                 break
@@ -28,10 +33,12 @@ def abmPlanes():
             else:
                 print("Opción inválida.")
         except ValueError:
+            # Captura errores si se ingresa algo que no sea número
             print("Debe ingresar un número válido.")
             continue
 
-
+# Crea un nuevo plan solicitando descripción y precio
+# Verifica con el usuario si desea guardar
 def crearPlan():
     print("=== Crear Nuevo Plan ===")
     plan = Planes()
@@ -45,7 +52,9 @@ def crearPlan():
     else:
         print("No se guardó el plan.")
 
-
+# Permite modificar un plan existente
+# Muestra la lista de planes y solicita el ID a modificar
+# Los campos se pueden dejar en blanco para conservar el valor anterior
 def modificarPlan():
     print("=== Modificar Plan ===")
     resultado = listarPlanes()
@@ -61,6 +70,7 @@ def modificarPlan():
     if precio:
         plan.precio = float(precio)
     else:
+        # Si no se ingresa un nuevo precio, mantiene el existente
         plan.precio= resultado[0][2]
 
     confirmacion = input("¿Confirma los cambios? (s/n): ")
@@ -70,7 +80,8 @@ def modificarPlan():
     else:
         print("No se realizaron cambios.")
 
-
+# Lista todos los planes existentes mostrando su ID, descripción y precio
+# Devuelve la lista para poder ser reutilizada por otras funciones
 def listarPlanes():
     print("=== Lista de Planes ===")
     resultados=consultas("SELECT id_planes, descripcion, precio FROM planes")
