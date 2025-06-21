@@ -21,10 +21,16 @@ def enviarmail (destinatario,asunto,mensaje):
     mail.detinatario = destinatario
     mail.envioMail()  
     
-#Funcion para validad ID.
+#Funcion para validar ID.
 def obtener_id_valido(tabla, campo_id, mensaje, funcion_verificacion):
+    print(f"\nRegistros disponibles en la tabla {tabla}:")
+    registros = funcion_verificacion(f"SELECT * FROM {tabla}")
+    
+    for fila in registros:
+        print(" | ".join(str(col) for col in fila))
+    print() 
+
     while True:
-        consultas(f"SELECT * FROM {tabla}")
         entrada = input(mensaje).strip()
 
         if not entrada.isdigit():
@@ -79,13 +85,11 @@ def AltaContrato():
                           inner join planes as P on P.id_planes = C.id_plan
                           inner join tipo_pagos as T on T.id_tipo_pago = C.id_tipo_pago """)
     for fila in resultado:
-        print(f"ID: {fila[0]}, Fecha de alta: {fila[1]}, Fecha de baja: {fila[2]}, Motivo de baja: {fila[3]}, Cliente: {fila[10]}, Plan: {fila[12]}, Tipo de pago: {fila[15]}, Estado: {fila[9]}")
+        print(f"ID: {fila[0]} | Fecha de alta: {fila[1]} | Fecha de baja: {fila[2]} | Motivo de baja: {fila[3]} | Cliente: {fila[10]} | Plan: {fila[12]} | Tipo de pago: {fila[15]} | Estado: {fila[9]}")
     contrato = Contratos()
     print("Alta de Contrato del Sistema")
 
     contrato.fecha_alta = obtener_fecha_actual()
-
-    print("Clientes registrados en la base de datos:")
 
     contrato.id_cliente = obtener_id_valido(
         "clientes",
@@ -115,7 +119,6 @@ def AltaContrato():
         if opcion == "s":
             insertar = agregar(contrato)
             print(insertar)
-
             datos = consultasclientes(f"""
                 SELECT TOP 1 C.mail, CONCAT(C.nombre, ', ', C.apellido) AS NombreCompleto
                 FROM contratos AS con
@@ -145,7 +148,7 @@ def BajaContrato():
                           inner join planes as P on P.id_planes = C.id_plan
                           inner join tipo_pagos as T on T.id_tipo_pago = C.id_tipo_pago """)
     for fila in resultado:
-        print(f"ID: {fila[0]}, Fecha de alta: {fila[1]}, Fecha de baja: {fila[2]}, Motivo de baja: {fila[3]}, Cliente: {fila[10]}, Plan: {fila[12]}, Tipo de pago: {fila[15]}, Estado: {fila[9]}")
+        print(f"ID: {fila[0]} | Fecha de alta: {fila[1]} | Fecha de baja: {fila[2]} | Motivo de baja: {fila[3]} | Cliente: {fila[10]} | Plan: {fila[12]} | Tipo de pago: {fila[15]} | Estado: {fila[9]}")
     
     contrato = Contratos()
     
@@ -224,9 +227,13 @@ def ConsultarContratos():
     while True:
         opcion = input("¿Desea consultar la lista de contratos completa? (s/n): ").strip().lower()
         if opcion == "s":                
-            resultado = consultas("SELECT * FROM contratos")
+            resultado = consultas("""SELECT C.*, E.*, concat (Cli.nombre,', ',Cli.apellido) as Nombre , P.*,T.* FROM contratos as C
+                          inner join estados as E on E.Id_estados =C.Id_estado
+                          inner join clientes as Cli on Cli.id_clientes = C.id_cliente
+                          inner join planes as P on P.id_planes = C.id_plan
+                          inner join tipo_pagos as T on T.id_tipo_pago = C.id_tipo_pago """)
             for fila in resultado:
-                print(f"ID: {fila[0]}, Fecha de alta: {fila[1]}, Fecha de baja: {fila[2]}, Motivo de baja: {fila[3]}, Id Cliente: {fila[4]}, Id Plan: {fila[5]}, Id Tipo de pago: {fila[6]}, Id Estado: {fila[7]}")
+                print(f"ID: {fila[0]} | Fecha de alta: {fila[1]} | Fecha de baja: {fila[2]} | Motivo de baja: {fila[3]} | Cliente: {fila[10]} | Plan: {fila[12]} | Tipo de pago: {fila[15]} | Estado: {fila[9]}")
         elif opcion == "n":
             break
         else:
