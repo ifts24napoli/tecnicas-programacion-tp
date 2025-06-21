@@ -3,7 +3,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from controlador.Inventario import agregar,actualiza, consultas
 from modelo.Inventario import Inventario
 
-#Función de menu
+#Función de menu.
 def abmInventario():
     while True:
         print("""Selecciones una de las siguientes opciones: 
@@ -77,7 +77,7 @@ def IngresarInventario():
 def modificarInventario():
     resultado = consultas("SELECT id_inventario, codigo, descripcion, stock FROM inventario")
     for fila in resultado:
-        print(f"ID: {fila[0]}, Código: {fila[1]}, Descripción: {fila[2]}, Stock: {fila[3]}")
+        print(f"ID: {fila[0]} | Código: {fila[1]} | Descripción: {fila[2]} | Stock: {fila[3]}")
 
     inventario = Inventario()
 
@@ -122,9 +122,20 @@ def modificarInventario():
                 print("El stock debe ser un número entero positivo.")
         except ValueError:
             print("Stock inválido. Ingrese un número entero positivo o presione Enter para mantener el actual.")
+            
+    #Confirmacion
+    while True:
+        opcion = input("¿Desea agregar el inventario? (s/n): ").lower()
+        if opcion == "s":
+            modificar = actualiza("id_inventario", id_inventario, inventario)
+            break
+        elif opcion == "n":
+            print("Operación cancelada.")
+            break
+        else:
+            print("Opción incorrecta. Intente nuevamente.")
 
-    modificar = actualiza("id_inventario", id_inventario, inventario)
-
+    
   
 #Función Consultar Inventario  
 def consultarInventario():
@@ -133,7 +144,7 @@ def consultarInventario():
         if opcion == "s":                
             resultado = consultas("SELECT id_inventario, codigo, descripcion, stock FROM inventario")
             for fila in resultado:
-                print(f"ID: {fila[0]}, Código: {fila[1]}, Descripción: {fila[2]}, Stock: {fila[3]}")
+                print(f"ID: {fila[0]} | Código: {fila[1]} | Descripción: {fila[2]} | Stock: {fila[3]}")
         elif opcion == "n":
             break
         else:
