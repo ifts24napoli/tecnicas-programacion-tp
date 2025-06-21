@@ -1,4 +1,5 @@
 from BaseDeDatos.Eda import actualizar, insertar, consultar
+from modelo.Inventario import Inventario
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -9,11 +10,11 @@ def agregar(inventario):
 def actualiza(filtro, valorFiltro, inventario):
     actualizar("inventario", filtro, valorFiltro, **inventario.__dict__)
 
-#Función para actualizar stock en ABM de comodato
+# """Necesito algo asi para actualizar la cantidad de comodato en base al stock del inventario:
 def actualizar_stock(id_inventario, nuevo_stock):
-    actualizar("inventario", "id_inventario", id_inventario, stock=nuevo_stock)
-
-
+    inventario = Inventario()
+    inventario.stock = nuevo_stock
+    actualizar("inventario","id_inventario", id_inventario, **inventario.__dict__)
 
 def consultas(query):
     return consultar(query)
