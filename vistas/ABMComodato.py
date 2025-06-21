@@ -82,6 +82,17 @@ def generar_comodato():
         print(f"No hay suficiente stock. Disponible: {stock_disponible}")
         return
 
+    # Mostramos contratos disponibles antes de solicitar el ID
+    print("\n--- Contratos disponibles ---")
+    contratos = consulta_comodato("SELECT * FROM contrato")  
+
+    if contratos:
+        for contrato in contratos:
+            print(f"ID: {contrato[0]} | Fecha alta: {contrato[1]} | Id cliente: {contrato[4]}")  
+    else:
+        print("No hay contratos registrados.")
+        return  # salimos si no hay contratos
+
     # Solicita el ID del contrato asociado al comodato
     id_contrato = input_numerico("Ingrese ID del contrato asociado: ")
 
