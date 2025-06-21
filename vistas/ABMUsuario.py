@@ -230,7 +230,7 @@ class MenuUsuario:
     def salir(self):
         self.menuGui.destroy()
 
-MenuUsuario()
+# MenuUsuario()
 # usuario = Clientes()
 # pruebaMenu = PruebaMenu("Clientes")
 # pruebaMenu.objeto = usuario
