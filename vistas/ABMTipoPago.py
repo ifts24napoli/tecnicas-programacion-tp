@@ -55,7 +55,7 @@ def modificarTipoPago ():
         tipopago.estado = estado
     confirmar = input ('¿Confirma que los datos son válidos? s/n: ').upper()
     if confirmar == 'S':
-        respuesta = actualiza ("id_tipo_pago", id_TipoPago, tipopago)
+        actualiza ("id_tipo_pago", id_TipoPago, tipopago)
 
 def listarTipoPago ():
     consultas ('SELECT * from tipo_pagos')
