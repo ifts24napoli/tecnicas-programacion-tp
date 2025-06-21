@@ -133,4 +133,4 @@ def rendimientos(fechaInicio, fechaFin):
     lbCantidadTotales = ttk.Label(frame, text=f"{resultados[0][1]}")
     lbCantidadTotales.grid(row=3, column=1, sticky="w", padx=5, pady=5)
     rendimientoGui.mainlopp()
-menu()    
+# menu()    
