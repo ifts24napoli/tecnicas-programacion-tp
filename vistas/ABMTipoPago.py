@@ -105,4 +105,4 @@ def modificarTipoPago ():
 def listarTipoPago ():
     consultas ('SELECT * from tipo_pagos')
 
-abmTipoPago ()
+# abmTipoPago ()

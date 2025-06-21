@@ -121,4 +121,4 @@ def modificarFacturacion ():
 def listarFacturacion ():
     return consultas ("SELECT * FROM facturacion")
 
-abmFacturacion()
+# abmFacturacion()
