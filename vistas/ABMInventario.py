@@ -135,7 +135,9 @@ def modificarInventario():
         else:
             print("Opción incorrecta. Intente nuevamente.")
 
-    
+
+    actualiza("id_inventario", id_inventario, inventario)
+
   
 #Función Consultar Inventario  
 def consultarInventario():
