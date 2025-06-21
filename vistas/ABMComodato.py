@@ -50,7 +50,7 @@ def abmComodato():
 
 def listar_comodatos():
     print("\n--- Lista de Comodatos ---")
-    query = "SELECT * FROM comodato"
+    query = "SELECT * FROM comodatos"
     resultado = consulta_comodato(query)
 
     if resultado:
