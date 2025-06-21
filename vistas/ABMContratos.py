@@ -242,4 +242,4 @@ def ConsultarContratos():
         break
   
 
-abmContratos()
+# abmContratos()
