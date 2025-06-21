@@ -42,7 +42,10 @@ def agregarTipoPago ():
     while valido5 == True:
         est = input ('Ingrese A (Activo)/I (Inactivo): ').strip().upper()
         if est == 'A' or est == 'I':
-            tipopago.estado = est
+            if est == 'A':
+                tipopago.estado = 'Activo'
+            else:
+                tipopago.estado = 'Inactivo'
             valido5 = False
         else:
             print ('Debe ingresar un estado de tipo de pago válido.')
@@ -88,7 +91,11 @@ def modificarTipoPago ():
         estado = input("Ingrese el estado del tipo de pago A (Activo)/I (Inactivo): ").strip().upper()
         if estado != "": 
             if estado == 'A' or estado == 'I':
-                tipopago.estado = estado
+                if estado == 'A':
+                    tipopago.estado = 'Activo'
+                else:
+                    tipopago.estado = 'Inactivo'
+                
                 valido2 = False
         else:
             print ('El ingresar una letra entre A o I para indicar si el tipo de pago está activo o inactivo.')
@@ -103,6 +110,9 @@ def modificarTipoPago ():
             print ('Debe ingresar una confirmacion válida.')
 
 def listarTipoPago ():
-    consultas ('SELECT * from tipo_pagos')
+    listado = consultas("SELECT * FROM tipo_pagos")
+    for con in listado:
+        print(f"ID: {con[0]} - Descripcion: {con[1]} - Estado {con[2]}")
+
 
 abmTipoPago ()
