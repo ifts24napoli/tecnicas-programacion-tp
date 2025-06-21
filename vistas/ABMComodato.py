@@ -3,7 +3,7 @@ import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Importación de funciones del controlador y modelo
-from controlador.Comodato import consultas as consulta_comodato, agregar as agregar_comodato, actualiza, eleiminar as eliminar_comodato
+from controlador.Comodato import consultas as consulta_comodato, agregar as agregar_comodato, actualiza, eleimina as eliminar_comodato
 from controlador.Inventario import consultas as consulta_inventario, actualizar_stock
 from modelo.Comodato import Comodato
 
@@ -75,23 +75,34 @@ def generar_comodato():
         print("Inventario no encontrado.")
         return
 
-    stock_disponible = resultado[0][1]
+    stock_disponible = int(resultado[0][3])
 
     # Verifica si la cantidad solicitada es mayor al stock disponible
     if cantidad > stock_disponible:
         print(f"No hay suficiente stock. Disponible: {stock_disponible}")
         return
 
+    # Mostramos contratos disponibles antes de solicitar el ID
+    print("\n--- Contratos disponibles ---")
+    contratos = consulta_comodato("SELECT * FROM contrato")  
+
+    if contratos:
+        for contrato in contratos:
+            print(f"ID: {contrato[0]} | Fecha alta: {contrato[1]} | Id cliente: {contrato[4]}")  
+    else:
+        print("No hay contratos registrados.")
+        return  # salimos si no hay contratos
+
     # Solicita el ID del contrato asociado al comodato
     id_contrato = input_numerico("Ingrese ID del contrato asociado: ")
 
     # Crea objeto Comodato y lo inserta en la base de datos
     datos = {
-        "Id_comodato": None,
         "Cantidad": cantidad,
         "Id_inventario": id_inventario,
         "Id_contrato": id_contrato
     }
+    
     nuevo_comodato = Comodato(**datos)
     agregar_comodato(nuevo_comodato)
 
@@ -107,7 +118,7 @@ def generar_comodato():
 def modificar_comodato():
     id_comodato = input_numerico("Ingrese el ID del comodato a modificar: ")
 
-    query = f"SELECT * FROM comodato WHERE id_comodato = {id_comodato}"
+    query = f"SELECT * FROM comodatos WHERE id_comodato = {id_comodato}"
     resultado = consulta_comodato(query)
 
     if not resultado:
@@ -135,16 +146,16 @@ def modificar_comodato():
         # Restaura el stock anterior
         inventario_ant = consulta_inventario(f"SELECT * FROM inventario WHERE id_inventario = {id_inventario_anterior}")
         if inventario_ant:
-            stock_ant = inventario_ant[0][1]
+            stock_ant = int(inventario_ant[0][3])
             actualizar_stock(id_inventario_anterior, stock_ant + cantidad_anterior)
-
+                
         # Verifica existencia y stock en nuevo inventario
         inventario_nuevo = consulta_inventario(f"SELECT * FROM inventario WHERE id_inventario = {nuevo_id_inventario}")
         if not inventario_nuevo:
             print("Nuevo inventario no encontrado.")
             return
 
-        stock_nuevo = inventario_nuevo[0][1]
+        stock_nuevo = int(inventario_nuevo[0][3])
         if nueva_cantidad > stock_nuevo:
             print(f"No hay suficiente stock en el nuevo inventario. Disponible: {stock_nuevo}")
             return
@@ -171,7 +182,7 @@ def modificar_comodato():
 def eliminar_comodato_vista():
     id_comodato = input_numerico("Ingrese el ID del comodato a eliminar: ")
 
-    query = f"SELECT * FROM comodato WHERE id_comodato = {id_comodato}"
+    query = f"SELECT * FROM comodatos WHERE id_comodato = {id_comodato}"
     resultado = consulta_comodato(query)
 
     if not resultado:
@@ -187,7 +198,7 @@ def eliminar_comodato_vista():
         # Restaura stock al inventario original
         inventario_resultado = consulta_inventario(f"SELECT * FROM inventario WHERE id_inventario = {id_inventario}")
         if inventario_resultado:
-            stock_actual = inventario_resultado[0][1]
+            stock_actual = int(inventario_resultado[0][3])
             nuevo_stock = stock_actual + cantidad
             actualizar_stock(id_inventario, nuevo_stock)
 
@@ -200,3 +211,4 @@ def eliminar_comodato_vista():
 
 """if __name__ == "__main__":
     abmComodato()"""
+abmComodato()
