@@ -2,6 +2,7 @@ import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from controlador.Facturacion import agregar, actualiza, consultas
 from modelo.Facturacion import Facturacion
+from controlador.Contratos import consultas as consultaContratos
 
 def abmFacturacion():
     while True:
@@ -31,13 +32,20 @@ def verificoFacturacion():
 
 def agregarFacturacion ():
     facturacion = Facturacion()
-    facturacion.fecha_factura = input ('Ingrese la fecha de la factura: ')
-    facturacion.monto = int(input('Ingrese el monto de la factura: '))
-    facturacion.estado = input ('Ingrese estado de la factura P/N: ')
-    facturacion.id_contrato = input ('Ingrese el ID del contrato: ')
-    confirmar = input ('¿Confirma que los datos son válidos? s/n: ').upper()
+    contratos = consultaContratos("SELECT id_contrato, id_cliente FROM contratos")
+    print("Contratos disponibles:")
+    for c in contratos:
+        print(f"ID: {c[0]} - Cliente: {c[1]}")
+    facturacion.id_contrato = input("Ingrese el ID del contrato elegido: ")
+    facturacion.monto = consultas(f"SELECT p.precio FROM planes AS p INNER JOIN contratos AS c ON p.id_plan = c.id_plan WHERE c.id_contrato = '{facturacion.id_contrato}")
+    facturacion.fecha_factura = input("Ingrese la fecha de la factura: ")
+    facturacion.estado = input("Ingrese estado de la factura P/N: ").upper()
+    confirmar = input("¿Confirma que los datos son válidos? s/n: ").upper()
     if confirmar == 'S':
-        respuesta = agregar (facturacion)
-        print (respuesta [1])
+        respuesta = agregar(facturacion)
+        print(respuesta[1])
+
+def listarFacturacion ():
+    return consultas ("SELECT * FROM facturacion")
 
 abmFacturacion()
