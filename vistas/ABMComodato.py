@@ -209,6 +209,3 @@ def eliminar_comodato_vista():
         print("Eliminación cancelada.")
 
 
-"""if __name__ == "__main__":
-    abmComodato()"""
-abmComodato()

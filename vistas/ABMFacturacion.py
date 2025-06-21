@@ -126,4 +126,4 @@ def listarFacturacion ():
     for con in listado:
         print(f"ID: {con[0]} - Fecha de facturación: {con[1]} - Monto {con[2]} - Estado: {con[3]} - ID del Contrato: {con[4]} - Cliente: {con[5]}")
 
-abmFacturacion()
+# abmFacturacion()

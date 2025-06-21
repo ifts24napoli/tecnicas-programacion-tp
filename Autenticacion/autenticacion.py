@@ -16,4 +16,4 @@ def verificar_usuario(email, password):
             print("Contraseña incorrecta")
     else:
         print("Usuario inexistente")
-    return False
+    return [False, False]
