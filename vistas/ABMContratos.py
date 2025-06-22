@@ -57,12 +57,14 @@ def obtener_id_valido(tabla, campo_id, mensaje, funcion_verificacion,tipoestado)
 def abmContratos():
     while True:
         print("""Selecciones una de las siguientes opciones: 
-                #############################
-                # 0. Salir                  #
-                # 1. Alta de Contrato       #
-                # 2. Baja de Contrato       # 
-                # 3. Consultar Contratos    # 
-                #############################""")
+                =============================
+                |         Contrato          |
+                =============================
+                | 0. Salir                  |
+                | 1. Alta de Contrato       |
+                | 2. Baja de Contrato       | 
+                | 3. Consultar Contratos    | 
+                =============================""")
         try: 
             opcion = int(input("Ingrese una Opción: "))
             if opcion == 0:
@@ -76,7 +78,7 @@ def abmContratos():
             else:
                 print("Opción no válida, ingrese un numero valido")
         except ValueError:
-            print ("Debe ingresar un valos numérico")
+            print ("Debe ingresar un valor numérico")
             continue   
         
 #Funcion Alta Contrato.
