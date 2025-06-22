@@ -88,7 +88,8 @@ def AltaContrato():
                           inner join planes as P on P.id_planes = C.id_plan
                           inner join tipo_pagos as T on T.id_tipo_pago = C.id_tipo_pago """)
     for fila in resultado:
-        print(f"ID: {fila[0]} | Fecha de alta: {fila[1]} | Fecha de baja: {fila[2]} | Motivo de baja: {fila[3]} | Cliente: {fila[10]} | Plan: {fila[12]} | Tipo de pago: {fila[15]} | Estado: {fila[9]}")
+        print(f"ID: {fila[0]} | Fecha de alta: {fila[1]} | Fecha de baja: {fila[2]} | Motivo de baja: {fila[3]} | Cliente: {fila[11]} | Plan: {fila[13]} | Tipo de pago: {fila[16]} | Estado: {fila[9]}")
+
     contrato = Contratos()
     print("Alta de Contrato del Sistema")
 
@@ -154,8 +155,8 @@ def BajaContrato():
                           inner join planes as P on P.id_planes = C.id_plan
                           inner join tipo_pagos as T on T.id_tipo_pago = C.id_tipo_pago """)
     for fila in resultado:
-        print(f"ID: {fila[0]} | Fecha de alta: {fila[1]} | Fecha de baja: {fila[2]} | Motivo de baja: {fila[3]} | Cliente: {fila[10]} | Plan: {fila[12]} | Tipo de pago: {fila[15]} | Estado: {fila[9]}")
-    
+        print(f"ID: {fila[0]} | Fecha de alta: {fila[1]} | Fecha de baja: {fila[2]} | Motivo de baja: {fila[3]} | Cliente: {fila[11]} | Plan: {fila[13]} | Tipo de pago: {fila[16]} | Estado: {fila[9]}")
+
     contrato = Contratos()
     
     while True:
@@ -239,7 +240,7 @@ def ConsultarContratos():
                           inner join planes as P on P.id_planes = C.id_plan
                           inner join tipo_pagos as T on T.id_tipo_pago = C.id_tipo_pago """)
             for fila in resultado:
-                print(f"ID: {fila[0]} | Fecha de alta: {fila[1]} | Fecha de baja: {fila[2]} | Motivo de baja: {fila[3]} | Cliente: {fila[10]} | Plan: {fila[12]} | Tipo de pago: {fila[15]} | Estado: {fila[9]}")
+                print(f"ID: {fila[0]} | Fecha de alta: {fila[1]} | Fecha de baja: {fila[2]} | Motivo de baja: {fila[3]} | Cliente: {fila[11]} | Plan: {fila[13]} | Tipo de pago: {fila[16]} | Estado: {fila[9]}")
         elif opcion == "n":
             break
         else:

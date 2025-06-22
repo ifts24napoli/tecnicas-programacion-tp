@@ -56,9 +56,19 @@ def crearPlan():
 # Muestra la lista de planes y solicita el ID a modificar
 # Los campos se pueden dejar en blanco para conservar el valor anterior
 def modificarPlan():
-    print("=== Modificar Plan ===")
-    resultado = listarPlanes()
-    id_plan = int(input("Ingrese el ID del plan a modificar: "))
+    while True:
+        try:
+            print("=== Modificar Plan ===")
+            resultado = listarPlanes()
+            id_plan = int(input("Ingrese el ID del plan a modificar: "))
+            validarPlan = consultas(f"""SELECT id_planes, descripcion, precio FROM planes
+                                  WHERE id_planes = '{id_plan}'""")
+            if not validarPlan:
+                print("El ID del plan no existe.")
+                continue
+            break
+        except ValueError:
+            print("Debe ingresar un valor Numerico")
     
     descripcion = input("Nueva descripción (opcional, dejar en blanco si no quiere cambiarlo): ")
     precio = input("Nuevo precio (opcional, dejar en blanco si no quiere cambiarlo): ")
@@ -95,6 +105,7 @@ def listarPlanes():
         print(f"ID: {id_plan}, Descripción: {descripcion}, Precio: ${float(costo):.2f}")
     
     return resultados
+
 
 
 
