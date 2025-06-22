@@ -20,10 +20,10 @@ class MenuUsuario:
         frame.pack(expand=True)
 
         opciones = [
-            ("Salir", self.salir),
             ("Crear Usuario", self.abrirFormularioUsuarioNuevo),
             ("Modificar Usuario", lambda: self.listarUsuarios("mod")),
-            ("Eliminar Usuario", lambda: self.listarUsuarios("del"))
+            ("Eliminar Usuario", lambda: self.listarUsuarios("del")),
+            ("Salir", self.salir)
         ]
 
         for texto, comando in opciones:

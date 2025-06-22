@@ -53,7 +53,7 @@ def listar_comodatos():
     print("\n--- Lista de Comodatos ---")
     query = """SELECT C.id_comodato, C.cantidad, I.descripcion, C.id_contrato
                 FROM comodatos as C 
-                inner join inventario as I on i.id_inventario = C.id_inventario"""
+                inner join inventario as I on I.id_inventario = C.id_inventario"""
     resultado = consulta_comodato(query)
 
     if resultado:
@@ -66,6 +66,21 @@ def listar_comodatos():
 # Verifica que exista el inventario, que haya suficiente stock y actualiza la base
 
 def generar_comodato():
+    print("\n--- Comodatos registrados ---")
+    query = """
+        SELECT C.id_comodato, C.cantidad, I.descripcion, C.id_contrato
+        FROM comodatos AS C
+        INNER JOIN inventario AS I ON I.id_inventario = C.id_inventario
+    """
+    resultado = consulta_comodato(query)
+
+    if resultado:
+        for fila in resultado:
+            print(f"ID Comodato: {fila[0]} | Cantidad: {fila[1]} | Descripción Inventario: {fila[2]} | ID Contrato: {fila[3]}")
+    else:
+        print("No hay comodatos registrados.")
+        
+    
     while True:
         # Solicita ID del inventario y cantidad a prestar, con validación
         id_inventario = input_numerico("Ingrese ID del inventario: ")
@@ -97,16 +112,16 @@ def generar_comodato():
             print(f"ID: {contrato[0]} | Fecha alta: {contrato[1]} | cliente: {contrato[2]}")  
     else:
         print("No hay contratos registrados.")
-        return  # salimos si no hay contratos
+        return # salimos si no hay contratos
 
     # Solicita el ID del contrato asociado al comodato
     id_contrato = input_numerico("Ingrese ID del contrato asociado: ")
 
     # Crea objeto Comodato y lo inserta en la base de datos
     datos = {
-        "Cantidad": cantidad,
-        "Id_inventario": id_inventario,
-        "Id_contrato": id_contrato
+        "cantidad": cantidad,
+        "id_inventario": id_inventario,
+        "id_contrato": id_contrato
     }
     
     nuevo_comodato = Comodato(**datos)
@@ -122,6 +137,21 @@ def generar_comodato():
 # Permite modificar cantidad, inventario o contrato, y actualiza stock si cambió
 
 def modificar_comodato():
+    print("\n--- Comodatos registrados ---")
+    query = """
+        SELECT C.id_comodato, C.cantidad, I.descripcion, C.id_contrato
+        FROM comodatos AS C
+        INNER JOIN inventario AS I ON I.id_inventario = C.id_inventario
+    """
+    resultado = consulta_comodato(query)
+
+    if resultado:
+        for fila in resultado:
+            print(f"ID Comodato: {fila[0]} | Cantidad: {fila[1]} | Descripción Inventario: {fila[2]} | ID Contrato: {fila[3]}")
+    else:
+        print("No hay comodatos registrados.")
+        return  # vuelve al menu si no hay comodatos
+
     while True:
         id_comodato = input_numerico("Ingrese el ID del comodato a modificar: ")
 
@@ -181,10 +211,10 @@ def modificar_comodato():
 
     # Prepara objeto actualizado y lo guarda
     datos_modificados = {
-        "Id_comodato": id_comodato,
-        "Cantidad": nueva_cantidad,
-        "Id_inventario": nuevo_id_inventario,
-        "Id_contrato": nuevo_id_contrato
+        "id_comodato": id_comodato,
+        "cantidad": nueva_cantidad,
+        "id_inventario": nuevo_id_inventario,
+        "id_contrato": nuevo_id_contrato
     }
 
     comodato_modificado = Comodato(**datos_modificados)
@@ -196,6 +226,22 @@ def modificar_comodato():
 # Restaura automáticamente el stock del inventario asociado
 
 def eliminar_comodato_vista():
+    print("\n--- Comodatos registrados ---")
+    query = """
+        SELECT C.id_comodato, C.cantidad, I.descripcion, C.id_contrato
+        FROM comodatos AS C
+        INNER JOIN inventario AS I ON I.id_inventario = C.id_inventario
+    """
+    resultado = consulta_comodato(query)
+
+    if resultado:
+        for fila in resultado:
+            print(f"ID Comodato: {fila[0]} | Cantidad: {fila[1]} | Descripción Inventario: {fila[2]} | ID Contrato: {fila[3]}")
+    else:
+        print("No hay comodatos registrados.")
+        return  # vuelve al menu si no hay comodatos
+
+    # se pide el ID del comodato a eliminar    
     while True:
         id_comodato = input_numerico("Ingrese el ID del comodato a eliminar: ")
         query = f"SELECT * FROM comodatos WHERE id_comodato = {id_comodato}"
@@ -224,4 +270,4 @@ def eliminar_comodato_vista():
     else:
         print("Eliminación cancelada.")
 
-
+abmComodato()
