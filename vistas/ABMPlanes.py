@@ -42,15 +42,26 @@ def abmPlanes():
 def crearPlan():
     print("=== Crear Nuevo Plan ===")
     plan = Planes()
-    plan.descripcion = input("Ingrese la descripción del plan: ")
-    plan.precio = float(input("Ingrese el precio del plan: "))
-    
-    confirmacion = input("¿Desea guardar este plan? (s/n): ")
-    if confirmacion.lower() == "s":
-        respuesta = agregar(plan)
-        print(respuesta[1])
-    else:
-        print("No se guardó el plan.")
+
+    try:
+        plan.descripcion = input("Ingrese la descripción del plan: ").strip()
+        if not plan.descripcion:
+            raise ValueError("La descripción no puede estar vacía.")
+
+        precio_input = input("Ingrese el precio del plan: ")
+        plan.precio = float(precio_input)
+        if plan.precio < 0:
+            raise ValueError("El precio no puede ser negativo.")
+
+        confirmacion = input("¿Desea guardar este plan? (s/n): ")
+        if confirmacion.lower() == "s":
+            respuesta = agregar(plan)
+            print(respuesta[1])
+        else:
+            print("No se guardó el plan.")
+
+    except ValueError as ve:
+        print(f"{ve}")
 
 # Permite modificar un plan existente
 # Muestra la lista de planes y solicita el ID a modificar
@@ -107,5 +118,5 @@ def listarPlanes():
     return resultados
 
 
-
+#abmPlanes()
 
