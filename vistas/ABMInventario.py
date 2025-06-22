@@ -26,7 +26,7 @@ def abmInventario():
             else:
                 print("Opción no válida, ingrese un numero valido")
         except ValueError:
-            print ("Debe ingresar un valos numérico")
+            print ("Debe ingresar un valor numérico")
             continue   
   
      
@@ -34,6 +34,9 @@ def abmInventario():
 def IngresarInventario():
     inventario = Inventario()
     print("Alta de Inventario del Sistema")
+    resultado = consultas("SELECT id_inventario, codigo, descripcion, stock FROM inventario")
+    for fila in resultado:
+        print(f"ID: {fila[0]} | Código: {fila[1]} | Descripción: {fila[2]} | Stock: {fila[3]}")
 
     # Función para validar entrada no vacía
     def entrada_no_vacia(mensaje):
@@ -155,4 +158,4 @@ def consultarInventario():
         break
   
 
-# abmInventario()
+abmInventario()
