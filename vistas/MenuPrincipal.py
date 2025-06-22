@@ -24,7 +24,7 @@ TEXTO_TIPOS_PAGOS = "Gestión Tipo de Pagos"
 TEXTO_CONTRATO = "Gestión Contratos"
 TEXTO_COMODATOS= "Gestión Comodatos"
 TEXTO_FACTURAS= "Gestión Facturas"
-TEXTO_REPORTES= "Gestión Repostes"
+TEXTO_REPORTES= "Gestión Reportes"
 VENTANA_TITULO = "Menú Principal"
 
 def despejar():
@@ -134,5 +134,5 @@ def GuiMenuPrincipal(sesion:Sesion):
         root.destroy()
         main()
     btn_cerrar_sesion = ttk.Button(frm, text=TEXTO_CERRAR_SESION, command=cerrar_sesion)
-    btn_cerrar_sesion.grid(column=0, row=11, sticky="w")
+    btn_cerrar_sesion.grid(column=0, row=12, sticky="w")
     root.mainloop()
