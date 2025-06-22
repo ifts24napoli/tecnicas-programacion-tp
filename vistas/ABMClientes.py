@@ -19,9 +19,9 @@ class MenuCliente:
         frame.pack(expand=True)
 
         opciones = [
-            ("Salir", self.salir),
-            ("Crear Cliente", self.clienteNuevo),
-            ("Modificar Cliente", self.listarClientes)
+            ("Crear Cliente", self.abrirFormularioClienteNuevo),
+            ("Modificar Cliente", self.listarClientes),
+            ("Salir", self.salir)
         ]
 
         for texto, comando in opciones:
@@ -29,7 +29,11 @@ class MenuCliente:
             boton.pack(fill="x", pady=5)
 
         self.menuGui.mainloop()
-
+    def verificoMail(self,mail):
+        return consultas (f"""select count(*) 
+                            from clientes 
+                            where mail = '{mail}' """)
+        
     def clienteNuevo(self):
         clientes = Clientes()
         print("Alta de Clientes del Sistema")
@@ -128,7 +132,7 @@ class MenuCliente:
             cliente.mail = entry_mail.get()
             cliente.direccion = entry_direccion.get()
 
-            actualiza("id_cliente", id_cliente, cliente)
+            actualiza("id_clientes", id_cliente, cliente)
             
             messagebox.showinfo("Éxito", "Cliente actualizado correctamente")
             ventana_edicion.destroy()
@@ -143,10 +147,52 @@ class MenuCliente:
         ventana = Toplevel(self.menuGui)
         ventana.title("Lista de Clientes")
         ventana.geometry("800x300")
-        print("Esta es una prueba del puto cache de mierda")
+        ttk.Label(ventana, text="Nombre:").pack()
+        entry_nombre = ttk.Entry(ventana)
+        entry_nombre.pack()
+
+        ttk.Label(ventana, text="Apellido:").pack()
+        entry_apellido = ttk.Entry(ventana)
+        entry_apellido.pack()
+
+        ttk.Label(ventana, text="DNI:").pack()
+        entry_dni = ttk.Entry(ventana)
+        entry_dni.pack()
+
+        ttk.Label(ventana, text="Cuit:").pack()
+        entry_cuit = ttk.Entry(ventana)
+        entry_cuit.pack()
+
+        ttk.Label(ventana, text="Mail:").pack()
+        entry_mail = ttk.Entry(ventana)
+        entry_mail.pack()
+
+        ttk.Label(ventana, text="Direccion:").pack()
+        entry_direccion = ttk.Entry(ventana)
+        entry_direccion.pack()
+
+        def guardarCambios():
+            cliente = Clientes()
+            cliente.nombre = entry_nombre.get()
+            cliente.apellido = entry_apellido.get()
+            cliente.dni = entry_dni.get()
+            cliente.cuit = entry_cuit.get()
+            cliente.mail = entry_mail.get()
+            cliente.direccion = entry_direccion.get()
+
+            respuesta = self.verificoMail(cliente.mail)
+            if respuesta[0][0] == 0:
+                if cliente.nombre != "" and cliente.apellido != "" and cliente.mail != "":        
+                    agregar(cliente)
+                    messagebox.showinfo("Éxito", "Clinte creado correctamente")
+                    ventana.destroy()
+                    self.listarClientes()
+                else: messagebox.showinfo("Error", "Debe llenar los cambos Nombre, Apellido y Mail")  
+            else : messagebox.showwarning("Error", f"El cliente {cliente.mail} ya Existe")
+           
+            
+        ttk.Button(ventana, text="Guardar Cambios", command=guardarCambios).pack(pady=10)
         
-    def eliminarUsuario(self):
-        print("Elimino Cliente")
 
     def salir(self):
         self.menuGui.destroy()
