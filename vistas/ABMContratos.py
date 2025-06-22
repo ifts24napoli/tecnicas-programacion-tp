@@ -22,9 +22,12 @@ def enviarmail (destinatario,asunto,mensaje):
     mail.envioMail()  
     
 #Funcion para validar ID.
-def obtener_id_valido(tabla, campo_id, mensaje, funcion_verificacion):
+def obtener_id_valido(tabla, campo_id, mensaje, funcion_verificacion,tipoestado):
     print(f"\nRegistros disponibles en la tabla {tabla}:")
-    registros = funcion_verificacion(f"SELECT * FROM {tabla}")
+    if tipoestado =="verificarestado":
+        registros = funcion_verificacion(f"SELECT * FROM {tabla} where estado = 'Activo'")
+    else:
+        registros = funcion_verificacion(f"SELECT * FROM {tabla}")
     
     for fila in registros:
         print(" | ".join(str(col) for col in fila))
@@ -43,7 +46,7 @@ def obtener_id_valido(tabla, campo_id, mensaje, funcion_verificacion):
             continue
 
         respuesta = funcion_verificacion(f"""SELECT {campo_id} FROM {tabla}
-                                                WHERE {campo_id} = '{id_valor}'""")
+                                        WHERE {campo_id} = '{id_valor}'""")
         if not respuesta:
             print(f"El ID ingresado no existe en la tabla {tabla}.")
             continue
@@ -95,21 +98,24 @@ def AltaContrato():
         "clientes",
         "id_clientes",
         "Ingrese el ID del cliente que desea asignar al contrato: ",
-        consultasclientes
+        consultasclientes,
+        "verificar"
     )
 
     contrato.id_plan = obtener_id_valido(
         "planes",
         "id_planes",
         "Ingrese el ID del plan que desea asignar al contrato: ",
-        consultasplanes
+        consultasplanes,
+        "verificar"
     )
 
     contrato.id_tipo_pago = obtener_id_valido(
         "tipo_pagos",
         "id_tipo_pago",
         "Ingrese el ID del tipo de pago que desea asignar al contrato: ",
-        consultaspagos
+        consultaspagos,
+        "verificarestado"
     )
     contrato.id_estado = 1
     
@@ -242,4 +248,4 @@ def ConsultarContratos():
         break
   
 
-# abmContratos()
+abmContratos()
