@@ -211,10 +211,10 @@ def modificar_comodato():
 
     # Prepara objeto actualizado y lo guarda
     datos_modificados = {
-        "Id_comodato": id_comodato,
-        "Cantidad": nueva_cantidad,
-        "Id_inventario": nuevo_id_inventario,
-        "Id_contrato": nuevo_id_contrato
+        "id_comodato": id_comodato,
+        "cantidad": nueva_cantidad,
+        "id_inventario": nuevo_id_inventario,
+        "id_contrato": nuevo_id_contrato
     }
 
     comodato_modificado = Comodato(**datos_modificados)
