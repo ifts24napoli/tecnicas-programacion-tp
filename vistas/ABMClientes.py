@@ -29,7 +29,7 @@ class MenuCliente:
             boton.pack(fill="x", pady=5)
 
         self.menuGui.mainloop()
-    def veridicoMail(self,mail):
+    def verificoMail(self,mail):
         return consultas (f"""select count(*) 
                             from clientes 
                             where mail = '{mail}' """)
@@ -180,7 +180,7 @@ class MenuCliente:
             cliente.mail = entry_mail.get()
             cliente.direccion = entry_direccion.get()
 
-            respuesta = self.veridicoMail(cliente.mail)
+            respuesta = self.verificoMail(cliente.mail)
             if respuesta[0][0] == 0:
                 if cliente.nombre != "" and cliente.apellido != "" and cliente.mail != "":        
                     agregar(cliente)
@@ -193,8 +193,6 @@ class MenuCliente:
             
         ttk.Button(ventana, text="Guardar Cambios", command=guardarCambios).pack(pady=10)
         
-    def eliminarUsuario(self):
-        print("Elimino Cliente")
 
     def salir(self):
         self.menuGui.destroy()
