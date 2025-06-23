@@ -27,7 +27,8 @@ def main():
         from vistas.MenuPrincipal import GuiMenuPrincipal as GuiMenuPrincipal
         root = Tk()
         root.title(VENTANA_TITULO)
-        root.resizable(width=False, height=False)
+        root.resizable(0, 0)
+        root.attributes('-toolwindow', True)
         width = ANCHO_VENTANA
         height = ALTO_VENTANA
         ancho_pantalla = root.winfo_screenwidth()
