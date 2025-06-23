@@ -26,13 +26,13 @@ def main():
         root = Tk()
         root.title(VENTANA_TITULO)
         root.resizable(width=False, height=False)
-        width = 0
-        height = 0
+        width = ANCHO_VENTANA
+        height = ALTO_VENTANA
         ancho_pantalla = root.winfo_screenwidth()
         alto_pantalla = root.winfo_screenheight()
         x_central = (ancho_pantalla - width) // 2
         y_central = (alto_pantalla - height) // 2
-        root.geometry(f"{width}x{height}+{x}+{y}")
+        root.geometry(f"{width}x{height}+{x_central}+{y_central}")
         root.geometry("250x120")
         frm = ttk.Frame(root, padding=10)
         frm.grid()
