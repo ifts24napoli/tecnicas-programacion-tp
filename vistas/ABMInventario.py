@@ -7,12 +7,14 @@ from modelo.Inventario import Inventario
 def abmInventario():
     while True:
         print("""Selecciones una de las siguientes opciones: 
-                #############################
-                # 0. Salir                  #
-                # 1. Ingresar Inventario    #
-                # 2. Modificar Inventario   # 
-                # 3. Consultar Inventario   # 
-                #############################""")
+                =============================
+                |         Inventario        |
+                =============================
+                | 0. Salir                  |
+                | 1. Ingresar Inventario    |
+                | 2. Modificar Inventario   | 
+                | 3. Consultar Inventario   | 
+                =============================""")
         try: 
             opcion = int(input("Ingrese una Opción: "))
             if opcion == 0:
@@ -26,7 +28,7 @@ def abmInventario():
             else:
                 print("Opción no válida, ingrese un numero valido")
         except ValueError:
-            print ("Debe ingresar un valos numérico")
+            print ("Debe ingresar un valor numérico")
             continue   
   
      
@@ -34,6 +36,9 @@ def abmInventario():
 def IngresarInventario():
     inventario = Inventario()
     print("Alta de Inventario del Sistema")
+    resultado = consultas("SELECT id_inventario, codigo, descripcion, stock FROM inventario")
+    for fila in resultado:
+        print(f"ID: {fila[0]} | Código: {fila[1]} | Descripción: {fila[2]} | Stock: {fila[3]}")
 
     # Función para validar entrada no vacía
     def entrada_no_vacia(mensaje):
@@ -155,4 +160,4 @@ def consultarInventario():
         break
   
 
-# abmInventario()
+abmInventario()

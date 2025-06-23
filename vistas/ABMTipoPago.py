@@ -52,23 +52,27 @@ def agregarTipoPago ():
     valido6 = True
     while valido6 == True:
         confirmar = input ('¿Confirma que los datos son válidos? S (Sí)/N (No): ').strip().upper()
-        if confirmar == 'S':
-            respuesta = agregar (tipopago)
+        if confirmar == 'S' or confirmar == 'N':
+            if confirmar == 'S':
+                respuesta = agregar (tipopago)
+                print (respuesta [1])
             valido6 = False
-            print (respuesta [1])
         else:
             print ('Debe ingresar una confirmacion válida.')
 
 def modificarTipoPago ():
     tipopago = TipoPago()
     ids_validos = []
+    listado = consultas("SELECT * FROM tipo_pagos")
+    for con in listado:
+        print(f"ID: {con[0]} - Descripcion: {con[1]} - Estado {con[2]}")
     while True:
         try:
             consultaId = consultas (f"SELECT id_tipo_pago FROM tipo_pagos")
             for fila in consultaId:
                 id_valor = fila[0]
                 ids_validos.append (id_valor)
-            id_TipoPago = int(input("Ingrese el id del tipo de pago a modificar: "))
+            id_TipoPago = int(input("Ingrese el ID correspondiente al tipo de pago a modificar: "))
             if id_TipoPago in ids_validos:
                 break
             else:
@@ -86,6 +90,7 @@ def modificarTipoPago ():
                 valido1 = False
             else:
                 print ('El texto ingresado no es un estado válido.')
+        
     valido2 = True
     while valido2 == True:
         estado = input("Ingrese el estado del tipo de pago A (Activo)/I (Inactivo): ").strip().upper()
@@ -105,7 +110,7 @@ def modificarTipoPago ():
         if confirmar == 'S' or confirmar == 'N':
             if confirmar == 'S':
                 actualiza ("id_tipo_pago", id_TipoPago, tipopago)
-                valido3 = False
+            valido3 = False
         else:
             print ('Debe ingresar una confirmacion válida.')
 

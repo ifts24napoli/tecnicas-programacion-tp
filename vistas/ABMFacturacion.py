@@ -58,7 +58,12 @@ def agregarFacturacion ():
     while valido4 == True:
         estado_factura = input("Ingrese estado de la factura P (Paga)/I (Inpaga)/C (Cancelada): ").strip().upper()
         if estado_factura == 'P' or estado_factura == 'I' or estado_factura == 'C':
-            facturacion.estado = estado_factura
+            if estado_factura == 'P':
+                facturacion.estado = 'PAGA'
+            if estado_factura == 'I':
+                facturacion.estado = 'INPAGA'
+            if estado_factura == 'C':
+                facturacion.estado = 'CANCELADA'
             valido4 = False
         else:
             print ('El estado de factura ingresado no es válido. Debe ingresar P (Paga)/I (Inpaga)/C (Cancelada)')
@@ -68,16 +73,21 @@ def agregarFacturacion ():
         if confirmar == 'S' or confirmar == 'N':
             if confirmar == 'S':
                 respuesta = agregar(facturacion)
-                valido5 = False
+            valido5 = False
                 
 def modificarFacturacion ():
     facturacion = Facturacion()
     ids_validos = []
+    listado = consultas("""SELECT f.id_facturacion, f.fecha_factura, f.monto, f. estado, c.id_contrato, CONCAT(cli.nombre, ', ', cli.apellido) AS cliente 
+                        FROM facturacion AS f
+                        INNER JOIN contratos AS c ON c.id_contrato = f.id_contrato 
+                        INNER JOIN clientes AS cli ON cli.id_clientes = c.id_cliente""")
+    for con in listado:
+        print(f"ID: {con[0]} - Fecha de facturación: {con[1]} - Monto {con[2]} - Estado: {con[3]} - ID del Contrato: {con[4]} - Cliente: {con[5]}")
     consultaId = consultas ('SELECT id_facturacion FROM facturacion')
     for fila in consultaId:
         id_valor = fila [0]
         ids_validos.append (id_valor)
-    print (f"La lista de id_facturacion es la siguiente {ids_validos}")
     while True:
         try:
             id_Facturacion = int(input("Ingrese el id de la factura a modificar: "))
@@ -89,24 +99,25 @@ def modificarFacturacion ():
             break
         except ValueError:
             print ('El ID ingresado debe ser un valor entero.')
-    valido1 = True
-    while valido1 == True:
-        try:
-            fecha_factura = input("Ingrese la fecha de facturación: ")
-            if fecha_factura != "":
-                facturacion.fecha_factura = fecha_factura
-                valido1 = False
-        except ValueError:
-            print ('La fecha ingresada no es válida.')
+
+    facturacion.fecha_factura = date.today().strftime("%Y-%m-%d")
+    
     valido2 = True
     while valido2 == True:
             estado = input("Ingrese el estado de la factura: P (Paga))/I (Inpaga)/ C (Cancelada): ").strip().upper()
             if estado != "":
-                if estado == 'P' or estado == 'I' or estado == 'C': 
-                    facturacion.estado = estado
+                if estado == 'P' or estado == 'I' or estado == 'C':
+                    if estado == 'P':
+                        facturacion.estado = 'PAGA'
+                    if estado == 'I':
+                        facturacion.estado = 'INPAGA'
+                    if estado == 'C':
+                        facturacion.estado = 'CANCELADA'
                     valido2 = False
                 else:
                     print ('El texto ingresado no es un estado válido.')
+            else:
+                valido2 = False
     valido3 = True
     while valido3 == True:
         confirmar = input ('¿Confirma que los datos son válidos? S (Sí)/N (No): ').strip().upper()
