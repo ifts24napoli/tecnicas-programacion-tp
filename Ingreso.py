@@ -8,7 +8,9 @@ from Autenticacion.autenticacion import verificar_usuario
 
 ANCHO_VENTANA = 250
 ALTO_VENTANA = 100
+CARACTER_OCULTAR_PASSWORD = "*"
 ENV_MEDIO = "MEDIO"
+STICKY_PROP = "w"
 TEXTO_BIENVENIDA = "Bienvenido/a"
 TEXTO_EMAIL = "Email: "
 TEXTO_INGRESAR = "Ingresar"
@@ -20,7 +22,7 @@ VENTANA_TITULO = "TP Programación"
 
 def main():
     sesion = Sesion()
-    medio = os.getenv("MEDIO")
+    medio = os.getenv(ENV_MEDIO)
     if medio=="gui":
         from vistas.MenuPrincipal import GuiMenuPrincipal as GuiMenuPrincipal
         root = Tk()
@@ -37,14 +39,14 @@ def main():
         frm = ttk.Frame(root, padding=10)
         frm.grid()
         ttk.Label(frm, text=TEXTO_SESION_NO_INICIADA).grid(column=0, row=0)
-        ttk.Label(frm, text=TEXTO_EMAIL).grid(column=0, row=1, sticky="w")
-        ttk.Label(frm, text=TEXTO_PASSWORD).grid(column=0, row=2, sticky="w")
+        ttk.Label(frm, text=TEXTO_EMAIL).grid(column=0, row=1, sticky=STICKY_PROP)
+        ttk.Label(frm, text=TEXTO_PASSWORD).grid(column=0, row=2, sticky=STICKY_PROP)
         entrada_usuario = ttk.Entry(frm)
-        entrada_usuario.grid(column=1, row=1, sticky="w")
-        entrada_password = ttk.Entry(frm, show="*")
-        entrada_password.grid(column=1, row=2, sticky="w")
+        entrada_usuario.grid(column=1, row=1, sticky=STICKY_PROP)
+        entrada_password = ttk.Entry(frm, show=CARACTER_OCULTAR_PASSWORD)
+        entrada_password.grid(column=1, row=2, sticky=STICKY_PROP)
         estado_sesion = ttk.Label(frm, foreground="red")
-        estado_sesion.grid(column=0, row=4, sticky="w")
+        estado_sesion.grid(column=0, row=4, sticky=STICKY_PROP)
         def ingresar():
             email = entrada_usuario.get()
             password = entrada_password.get()
@@ -56,8 +58,8 @@ def main():
             else:
                 estado_sesion.config(text=TEXTO_NO_SE_PUDO_CONECTAR)
         btn_ingresar = ttk.Button(frm, text=TEXTO_INGRESAR, command=ingresar)
-        btn_ingresar.grid(column=0, row=3, sticky="w")
-        ttk.Label().grid(column=0, row=2, sticky="w")
+        btn_ingresar.grid(column=0, row=3, sticky=STICKY_PROP)
+        ttk.Label().grid(column=0, row=2, sticky=STICKY_PROP)
         root.mainloop()
         
     else:
@@ -69,7 +71,7 @@ def main():
                 print(TEXTO_SESION_NO_INICIADA)
                 email = str(input(TEXTO_EMAIL))
                 password = str(input(TEXTO_PASSWORD))
-                rol_id, tipo_rol = verificar_usuario(email, password)
+                nombre, rol_id, tipo_rol = verificar_usuario(email, password)
                 if rol_id:
                     sesion.conectar(email, rol_id, tipo_rol)
                     print()
