@@ -82,6 +82,18 @@ def generar_comodato():
         
     
     while True:
+        # Mostramos inventario disponible antes de solicitar el ID
+        print("\n--- Inventario disponible ---")
+        inventarios = consulta_inventario("SELECT id_inventario, codigo, descripcion, stock FROM inventario WHERE stock > 0")
+        
+        if inventarios:
+            for item in inventarios:
+                print(f"ID Inventario: {item[0]} | Código: {item[1]} | Descripción: {item[2]} | Stock: {item[3]}")
+        else:
+            print("No hay inventario disponible.")
+            return  # salimos si no hay stock
+    
+        
         # Solicita ID del inventario y cantidad a prestar, con validación
         id_inventario = input_numerico("Ingrese ID del inventario: ")
         # Consulta si el inventario existe
@@ -295,4 +307,4 @@ def eliminar_comodato_vista():
     else:
         print("Eliminación cancelada.")
 
-#abmComodato()
+abmComodato()
