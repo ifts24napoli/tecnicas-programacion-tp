@@ -7,12 +7,14 @@ from modelo.Inventario import Inventario
 def abmInventario():
     while True:
         print("""Selecciones una de las siguientes opciones: 
-                #############################
-                # 0. Salir                  #
-                # 1. Ingresar Inventario    #
-                # 2. Modificar Inventario   # 
-                # 3. Consultar Inventario   # 
-                #############################""")
+                =============================
+                |         Inventario        |
+                =============================
+                | 0. Salir                  |
+                | 1. Ingresar Inventario    |
+                | 2. Modificar Inventario   | 
+                | 3. Consultar Inventario   | 
+                =============================""")
         try: 
             opcion = int(input("Ingrese una Opción: "))
             if opcion == 0:

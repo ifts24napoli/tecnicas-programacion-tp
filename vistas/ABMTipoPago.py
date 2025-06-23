@@ -120,4 +120,4 @@ def listarTipoPago ():
         print(f"ID: {con[0]} - Descripcion: {con[1]} - Estado {con[2]}")
 
 
-abmTipoPago ()
+# abmTipoPago ()
