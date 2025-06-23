@@ -36,9 +36,9 @@ def main():
         def ingresar():
             email = entrada_usuario.get()
             password = entrada_password.get()
-            rol = verificar_usuario(email, password)
-            if rol:
-                sesion.conectar(email, rol)
+            rol_id, tipo_rol = verificar_usuario(email, password)
+            if rol_id:
+                sesion.conectar(email, rol_id, tipo_rol)
                 root.destroy()
                 GuiMenuPrincipal(sesion)
             else:
@@ -57,11 +57,13 @@ def main():
                 print(TEXTO_SESION_NO_INICIADA)
                 email = str(input(TEXTO_EMAIL))
                 password = str(input(TEXTO_PASSWORD))
-                rol = verificar_usuario(email, password)
-                if rol:
-                    sesion.conectar(email, rol)
+                rol_id, tipo_rol = verificar_usuario(email, password)
+                if rol_id:
+                    sesion.conectar(email, rol_id, tipo_rol)
                     print("Ingreso exitoso")
                     MenuPrincipal(sesion)
 
 if __name__ == "__main__":
     main()
+    
+# Nueva Fecha     

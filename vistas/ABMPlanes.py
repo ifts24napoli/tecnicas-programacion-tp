@@ -42,23 +42,44 @@ def abmPlanes():
 def crearPlan():
     print("=== Crear Nuevo Plan ===")
     plan = Planes()
-    plan.descripcion = input("Ingrese la descripción del plan: ")
-    plan.precio = float(input("Ingrese el precio del plan: "))
-    
-    confirmacion = input("¿Desea guardar este plan? (s/n): ")
-    if confirmacion.lower() == "s":
-        respuesta = agregar(plan)
-        print(respuesta[1])
-    else:
-        print("No se guardó el plan.")
+
+    try:
+        plan.descripcion = input("Ingrese la descripción del plan: ").strip()
+        if not plan.descripcion:
+            raise ValueError("La descripción no puede estar vacía.")
+
+        precio_input = input("Ingrese el precio del plan: ")
+        plan.precio = float(precio_input)
+        if plan.precio < 0:
+            raise ValueError("El precio no puede ser negativo.")
+
+        confirmacion = input("¿Desea guardar este plan? (s/n): ")
+        if confirmacion.lower() == "s":
+            respuesta = agregar(plan)
+            print(respuesta[1])
+        else:
+            print("No se guardó el plan.")
+
+    except ValueError as ve:
+        print(f"{ve}")
 
 # Permite modificar un plan existente
 # Muestra la lista de planes y solicita el ID a modificar
 # Los campos se pueden dejar en blanco para conservar el valor anterior
 def modificarPlan():
-    print("=== Modificar Plan ===")
-    resultado = listarPlanes()
-    id_plan = int(input("Ingrese el ID del plan a modificar: "))
+    while True:
+        try:
+            print("=== Modificar Plan ===")
+            resultado = listarPlanes()
+            id_plan = int(input("Ingrese el ID del plan a modificar: "))
+            validarPlan = consultas(f"""SELECT id_planes, descripcion, precio FROM planes
+                                  WHERE id_planes = '{id_plan}'""")
+            if not validarPlan:
+                print("El ID del plan no existe.")
+                continue
+            break
+        except ValueError:
+            print("Debe ingresar un valor Numerico")
     
     descripcion = input("Nueva descripción (opcional, dejar en blanco si no quiere cambiarlo): ")
     precio = input("Nuevo precio (opcional, dejar en blanco si no quiere cambiarlo): ")
@@ -97,4 +118,5 @@ def listarPlanes():
     return resultados
 
 
+#abmPlanes()
 

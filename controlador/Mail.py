@@ -37,13 +37,3 @@ class Mail:
         except Exception as e:
             print("Error al enviar el correo:", e)       
     
-mail = Mail()
-mail.asunto = "Alta de cliente"
-mail.mensaje = """ Bienvenido a nuestra comunidad. Para nosotros, no sos solo un cliente:
-sos parte de nuestra familia. 
-Nuestro compromiso es brindarte un servicio de telecomunicaciones confiable, 
-cercano y de calidad, construyendo juntos una relación basada en la confianza, 
-la atención personalizada y la mejora constante.
-Att Matias Napoli (Director de Ventas)"""
-mail.detinatario = "yarrib76@gmail.com"
-mail.envioMail()    
