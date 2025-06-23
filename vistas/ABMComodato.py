@@ -270,4 +270,4 @@ def eliminar_comodato_vista():
     else:
         print("Eliminación cancelada.")
 
-abmComodato()
+# abmComodato()
