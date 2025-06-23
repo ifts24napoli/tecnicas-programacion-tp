@@ -6,8 +6,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from Autenticacion.Sesion import Sesion as Sesion
 from Autenticacion.autenticacion import verificar_usuario
 
-ANCHO_VENTANA = 250
-ALTO_VENTANA = 100
+ANCHO_VENTANA = 270
+ALTO_VENTANA = 120
 CARACTER_OCULTAR_PASSWORD = "*"
 ENV_MEDIO = "MEDIO"
 STICKY_PROP = "w"
@@ -36,7 +36,6 @@ def main():
         x_central = (ancho_pantalla - width) // 2
         y_central = (alto_pantalla - height) // 2
         root.geometry(f"{width}x{height}+{x_central}+{y_central}")
-        root.geometry("250x120")
         frm = ttk.Frame(root, padding=10)
         frm.grid()
         ttk.Label(frm, text=TEXTO_SESION_NO_INICIADA).grid(column=0, row=0)
