@@ -58,7 +58,12 @@ def agregarFacturacion ():
     while valido4 == True:
         estado_factura = input("Ingrese estado de la factura P (Paga)/I (Inpaga)/C (Cancelada): ").strip().upper()
         if estado_factura == 'P' or estado_factura == 'I' or estado_factura == 'C':
-            facturacion.estado = estado_factura
+            if estado_factura == 'P':
+                facturacion.estado = 'PAGA'
+            if estado_factura == 'I':
+                facturacion.estado = 'INPAGA'
+            if estado_factura == 'C':
+                facturacion.estado = 'CANCELADA'
             valido4 = False
         else:
             print ('El estado de factura ingresado no es válido. Debe ingresar P (Paga)/I (Inpaga)/C (Cancelada)')
@@ -132,4 +137,4 @@ def listarFacturacion ():
     for con in listado:
         print(f"ID: {con[0]} - Fecha de facturación: {con[1]} - Monto {con[2]} - Estado: {con[3]} - ID del Contrato: {con[4]} - Cliente: {con[5]}")
 
-abmFacturacion()
+# abmFacturacion()
