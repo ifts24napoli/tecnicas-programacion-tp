@@ -6,8 +6,13 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from Autenticacion.Sesion import Sesion as Sesion
 from Autenticacion.autenticacion import verificar_usuario
 
+ANCHO_VENTANA = 250
+ALTO_VENTANA = 100
+ENV_MEDIO = "MEDIO"
+TEXTO_BIENVENIDA = "Bienvenido/a"
 TEXTO_EMAIL = "Email: "
 TEXTO_INGRESAR = "Ingresar"
+TEXTO_INGRESO_EXITOSO = "Ingreso exitoso"
 TEXTO_NO_SE_PUDO_CONECTAR = "No se pudo conectar"
 TEXTO_SESION_NO_INICIADA = "Sesión no iniciada"
 TEXTO_PASSWORD = "Contraseña: "
@@ -21,6 +26,13 @@ def main():
         root = Tk()
         root.title(VENTANA_TITULO)
         root.resizable(width=False, height=False)
+        width = 0
+        height = 0
+        ancho_pantalla = root.winfo_screenwidth()
+        alto_pantalla = root.winfo_screenheight()
+        x_central = (ancho_pantalla - width) // 2
+        y_central = (alto_pantalla - height) // 2
+        root.geometry(f"{width}x{height}+{x}+{y}")
         root.geometry("250x120")
         frm = ttk.Frame(root, padding=10)
         frm.grid()
@@ -52,7 +64,7 @@ def main():
         from vistas.MenuPrincipal import MenuPrincipal as MenuPrincipal
         while True:
             if sesion.conectado:
-                print("Bienvenido/a")
+                print(TEXTO_BIENVENIDA)
             else:
                 print(TEXTO_SESION_NO_INICIADA)
                 email = str(input(TEXTO_EMAIL))
@@ -60,7 +72,7 @@ def main():
                 rol_id, tipo_rol = verificar_usuario(email, password)
                 if rol_id:
                     sesion.conectar(email, rol_id, tipo_rol)
-                    print("Ingreso exitoso")
+                    print()
                     MenuPrincipal(sesion)
 
 if __name__ == "__main__":
