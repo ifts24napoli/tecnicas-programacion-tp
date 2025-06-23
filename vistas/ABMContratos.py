@@ -247,6 +247,3 @@ def ConsultarContratos():
             print("Opción incorrecta. Intente nuevamente.")
             continue
         break
-  
-
-abmContratos()

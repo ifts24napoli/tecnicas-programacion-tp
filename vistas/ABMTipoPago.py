@@ -118,6 +118,3 @@ def listarTipoPago ():
     listado = consultas("SELECT * FROM tipo_pagos")
     for con in listado:
         print(f"ID: {con[0]} - Descripcion: {con[1]} - Estado {con[2]}")
-
-
-abmTipoPago ()

@@ -156,6 +156,3 @@ def consultarInventario():
             print("Opción incorrecta. Intente nuevamente.")
             continue
         break
-  
-
-abmInventario()

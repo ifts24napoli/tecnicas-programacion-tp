@@ -116,7 +116,3 @@ def listarPlanes():
         print(f"ID: {id_plan}, Descripción: {descripcion}, Precio: ${float(costo):.2f}")
     
     return resultados
-
-
-#abmPlanes()
-

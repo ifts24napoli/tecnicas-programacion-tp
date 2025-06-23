@@ -269,5 +269,3 @@ def eliminar_comodato_vista():
         print("Comodato eliminado y stock restaurado correctamente.")
     else:
         print("Eliminación cancelada.")
-
-abmComodato()

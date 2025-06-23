@@ -196,5 +196,3 @@ class MenuCliente:
 
     def salir(self):
         self.menuGui.destroy()
-        
-# MenuCliente()        
