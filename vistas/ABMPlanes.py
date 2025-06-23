@@ -37,6 +37,7 @@ def abmPlanes():
             print("Debe ingresar un número válido.")
             continue
 
+
 # Crea un nuevo plan solicitando descripción y precio
 # Verifica con el usuario si desea guardar
 def crearPlan():
@@ -48,10 +49,17 @@ def crearPlan():
         if not plan.descripcion:
             raise ValueError("La descripción no puede estar vacía.")
 
-        precio_input = input("Ingrese el precio del plan: ")
-        plan.precio = float(precio_input)
-        if plan.precio < 0:
-            raise ValueError("El precio no puede ser negativo.")
+        while True:
+            precio_input = input("Ingrese el precio del plan: ").strip()
+            try:
+                precio = float(precio_input)
+                if precio <= 0:
+                    print("El precio debe ser un número mayor que cero.")
+                    continue
+                plan.precio = precio
+                break
+            except ValueError:
+                print("Debe ingresar un número válido.")
 
         confirmacion = input("¿Desea guardar este plan? (s/n): ")
         if confirmacion.lower() == "s":
@@ -61,7 +69,9 @@ def crearPlan():
             print("No se guardó el plan.")
 
     except ValueError as ve:
-        print(f"{ve}")
+        print(f"Error: {ve}")
+
+
 
 # Permite modificar un plan existente
 # Muestra la lista de planes y solicita el ID a modificar
@@ -73,26 +83,35 @@ def modificarPlan():
             resultado = listarPlanes()
             id_plan = int(input("Ingrese el ID del plan a modificar: "))
             validarPlan = consultas(f"""SELECT id_planes, descripcion, precio FROM planes
-                                  WHERE id_planes = '{id_plan}'""")
+                                        WHERE id_planes = '{id_plan}'""")
             if not validarPlan:
                 print("El ID del plan no existe.")
                 continue
             break
         except ValueError:
-            print("Debe ingresar un valor Numerico")
+            print("Debe ingresar un valor numérico.")
+
+    descripcion = input("Nueva descripción (opcional, dejar en blanco si no quiere cambiarla): ")
     
-    descripcion = input("Nueva descripción (opcional, dejar en blanco si no quiere cambiarlo): ")
-    precio = input("Nuevo precio (opcional, dejar en blanco si no quiere cambiarlo): ")
-    
+    # Validación del nuevo precio
+    while True:
+        precio_input = input("Nuevo precio (opcional, dejar en blanco si no quiere cambiarlo): ").strip()
+        if precio_input == "":
+            precio = resultado[0][2]  # Mantener precio actual
+            break
+        try:
+            precio = float(precio_input)
+            if precio <= 0:
+                print("El precio debe ser un número mayor a cero.")
+                continue
+            break
+        except ValueError:
+            print("Ingrese un número válido para el precio.")
+
+    # Armado del objeto plan
     plan = Planes()
-    
-    if descripcion:
-        plan.descripcion = descripcion
-    if precio:
-        plan.precio = float(precio)
-    else:
-        # Si no se ingresa un nuevo precio, mantiene el existente
-        plan.precio= resultado[0][2]
+    plan.descripcion = descripcion if descripcion else resultado[0][1]
+    plan.precio = precio
 
     confirmacion = input("¿Confirma los cambios? (s/n): ")
     if confirmacion.lower() == "s":
@@ -100,6 +119,7 @@ def modificarPlan():
         print("Plan actualizado correctamente.")
     else:
         print("No se realizaron cambios.")
+
 
 # Lista todos los planes existentes mostrando su ID, descripción y precio
 # Devuelve la lista para poder ser reutilizada por otras funciones
