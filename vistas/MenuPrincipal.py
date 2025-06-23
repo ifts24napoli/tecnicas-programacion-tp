@@ -15,7 +15,7 @@ from vistas.ReporteFinanciero import menu as reporteFinanciero
 
 TEXTO_CERRAR_SESION = "Cerrar Sesión"
 TEXTO_SESION_USUARIO = "Bienvenido/a "
-TEXTO_ROLES = "Usted tiene Rol: "
+TEXTO_ROLES = "Rol "
 TEXTO_CLIENTES = "Gestión Clientes"
 TEXTO_USUARIOS = "Gestión Usuarios"
 TEXTO_PLANES = "Gestión Planes"
@@ -74,7 +74,7 @@ def GuiMenuPrincipal(sesion:Sesion):
     root.geometry("250x400")
     frm = ttk.Frame(root, padding=10)
     frm.grid()
-    texto_sesion_usuario = ttk.Label(frm, text=TEXTO_SESION_USUARIO+sesion.email_usuario)
+    texto_sesion_usuario = ttk.Label(frm, text=TEXTO_SESION_USUARIO+sesion.nombre_usuario)
     texto_sesion_usuario.grid(column=0, row=1, sticky="w")
     texto__ROLES = ttk.Label(frm, text=TEXTO_ROLES+sesion.tipo_rol)
     texto__ROLES.grid(column=0, row=2, sticky="w")

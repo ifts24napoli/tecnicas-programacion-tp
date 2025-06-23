@@ -50,9 +50,9 @@ def main():
         def ingresar():
             email = entrada_usuario.get()
             password = entrada_password.get()
-            rol_id, tipo_rol = verificar_usuario(email, password)
+            nombre, rol_id, tipo_rol = verificar_usuario(email, password)
             if rol_id:
-                sesion.conectar(email, rol_id, tipo_rol)
+                sesion.conectar(email, nombre, rol_id, tipo_rol)
                 root.destroy()
                 GuiMenuPrincipal(sesion)
             else:
@@ -73,7 +73,7 @@ def main():
                 password = str(input(TEXTO_PASSWORD))
                 nombre, rol_id, tipo_rol = verificar_usuario(email, password)
                 if rol_id:
-                    sesion.conectar(email, rol_id, tipo_rol)
+                    sesion.conectar(email, nombre, rol_id, tipo_rol)
                     print()
                     MenuPrincipal(sesion)
 
