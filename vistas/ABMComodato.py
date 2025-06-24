@@ -82,6 +82,18 @@ def generar_comodato():
         
     
     while True:
+        # Mostramos inventario disponible antes de solicitar el ID
+        print("\n--- Inventario disponible ---")
+        inventarios = consulta_inventario("SELECT id_inventario, codigo, descripcion, stock FROM inventario WHERE stock > 0")
+        
+        if inventarios:
+            for item in inventarios:
+                print(f"ID Inventario: {item[0]} | Código: {item[1]} | Descripción: {item[2]} | Stock: {item[3]}")
+        else:
+            print("No hay inventario disponible.")
+            return  # salimos si no hay stock
+    
+        
         # Solicita ID del inventario y cantidad a prestar, con validación
         id_inventario = input_numerico("Ingrese ID del inventario: ")
         # Consulta si el inventario existe
@@ -92,7 +104,7 @@ def generar_comodato():
             continue
         break
     while True:    
-        cantidad = input_numerico("Ingrese cantidad a prestar en comodato: ")
+        cantidad = input_numerico("Ingrese cantidad a prestar en comodato: ")        
         stock_disponible = int(resultado[0][3])
 
         # Verifica si la cantidad solicitada es mayor al stock disponible
@@ -169,12 +181,37 @@ def modificar_comodato():
     id_inventario_anterior = registro_actual[2]
     id_contrato_anterior = registro_actual[3]
 
-    print("Ingrese los nuevos datos (dejar en blanco para mantener):")
-    cantidad_input = input(f"Cantidad [{cantidad_anterior}]: ")
-    id_inventario_input = input(f"ID Inventario [{id_inventario_anterior}]: ")
-    # Se mantienen los datos actuales si el usuario no ingresa nuevos valores
-    nueva_cantidad = int(cantidad_input) if cantidad_input.isdigit() else cantidad_anterior
-    nuevo_id_inventario = int(id_inventario_input) if id_inventario_input.isdigit() else id_inventario_anterior
+    while True:
+        try:
+            print("Ingrese los nuevos datos (dejar en blanco para mantener):")
+
+            cantidad_input = input(f"Cantidad [{cantidad_anterior}]: ")
+            if cantidad_input != "":
+                cantidad_input_num = int(cantidad_input)
+                if cantidad_input_num < 0:
+                    print("La cantidad no puede ser menor que cero.")
+                    continue
+            else:
+                cantidad_input_num = cantidad_anterior
+
+            id_inventario_input = input(f"ID Inventario [{id_inventario_anterior}]: ")
+            if id_inventario_input != "":
+                id_inventario_input_num = int(id_inventario_input)
+                if id_inventario_input_num < 0:
+                    print("El ID de inventario no puede ser menor que cero.")
+                    continue
+            else:
+                id_inventario_input_num = id_inventario_anterior
+
+            break  # Si todo es válido, salimos del bucle
+
+        except ValueError:
+            print("Ingrese un número válido o deje el campo en blanco.")
+
+    # Asignación con los valores nuevos o anteriores
+    nueva_cantidad = cantidad_input_num
+    nuevo_id_inventario = id_inventario_input_num
+
     while True:
         id_contrato_input = input(f"ID Contrato [{id_contrato_anterior}]: ")
         nuevo_id_contrato = int(id_contrato_input) if id_contrato_input.isdigit() else id_contrato_anterior
@@ -270,4 +307,6 @@ def eliminar_comodato_vista():
     else:
         print("Eliminación cancelada.")
 
+
 # abmComodato()
+
