@@ -160,4 +160,4 @@ def consultarInventario():
         break
   
 
-abmInventario()
+# abmInventario()
